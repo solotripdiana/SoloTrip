@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurantes do Japão</title>
+  <style>
+:root {
+  --paper: #f4f1ea;
+  --ink: #171717;
+  --red: #c0362c;
+  --line: rgba(192, 54, 44, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Noto Serif JP", "Noto Sans JP", "Hiragino Mincho ProN",
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) 0 0 / 22px 22px repeat,
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px) 0 0 / 26px 26px repeat,
+    var(--paper);
+  color: var(--ink);
+  line-height: 1.9;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+}
+
+.side {
+  border-right: 1px solid var(--line);
+  padding: 1.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.side-title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.35em;
+  font-size: 1.05rem;
+}
+
+.side-stamp {
+  border: 1px solid var(--red);
+  color: var(--red);
+  padding: 0.5rem 0.35rem;
+  font-size: 0.76rem;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.25em;
+  border-radius: 4px;
+  background: rgba(192, 54, 44, 0.05);
+  box-shadow: 0 0 0 1px rgba(192, 54, 44, 0.15) inset;
+}
+
+.main {
+  padding: 1.8rem 1.8rem 2.4rem;
+}
+
+header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.3rem;
+  margin-bottom: 1.6rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.heading-block {
+  max-width: 520px;
+}
+
+.heading-kana {
+  font-size: 0.9rem;
+  letter-spacing: 0.4em;
+  color: #7b6c5e;
+}
+
+.heading-main {
+  font-family: "Noto Serif JP", serif;
+  font-size: 2.1rem;
+  letter-spacing: 0.22em;
+}
+
+.heading-sub {
+  font-size: 0.95rem;
+  color: #5e5245;
+}
+
+.thumb-wrap {
+  width: 90px;
+  height: 90px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+nav {
+  font-size: 0.84rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+nav a { position: relative; }
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--red);
+  transition: width 0.18s ease-out;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+.section {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.24em;
+  color: #7a6e61;
+}
+
+h2 {
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+}
+
+.grid {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transition: .12s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.photo {
+  height: 220px;
+  border-bottom: 1px solid var(--line);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  padding: 1.2rem 1.4rem 1.5rem;
+}
+
+.icon-row {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+#card-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+  z-index: 9999;
+}
+
+#card-popup.active {
+  display: flex;
+}
+
+.popup-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.popup-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.45);
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.popup-photo {
+  width: 100%;
+  max-height: 35vh;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.popup-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popup-main {
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.popup-extra {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 40vh;
+  padding: 1.1rem 1.4rem;
+}
+
+.popup-extra::-webkit-scrollbar {
+  width: 8px;
+}
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <aside class="side">
+    <div class="side-title">日本料理</div>
+    <div class="side-stamp">Comidas e iguarias</div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div class="header-top">
+        <div class="heading-block">
+          <div class="heading-kana">Japan Food Guide</div>
+          <div class="heading-main">Restaurantes do Japão</div>
+          <p class="heading-sub">
+            Uma seleção pessoal dos restaurantes mais marcantes — Osaka, Tokyo e as ilhas.
+          </p>
+        </div>
+
+        <section class="hero-thumb">
+          <div class="thumb-wrap">
+            <img src="../Restaurantes/images/thumb2.jpg" alt="thumb">
+          </div>
+          <p class="thumb-caption">Sabores do Japão.</p>
+        </section>
+      </div>
+
+      <nav class="global-menu jp-menu">
+        <a href="index.html?token=irmaislonge2025">Home</a>
+        <a href="restaurante.html?token=irmaislonge2025">Restaurantes</a>
+        <a href="osaka.html?token=irmaislonge2025">Osaka</a>
+        <a href="teshima.html?token=irmaislonge2025">Teshima</a>
+        <a href="tokyo.html?token=irmaislonge2025">Tokyo</a>
+        <a href="nagano.html?token=irmaislonge2025">Nagano</a>
+        <a href="geral.html?token=irmaislonge2025">Dicas</a>
+      </nav>
+    </header>
+
+    <section class="section">
+      <div class="section-label">Introdução</div>
+      <h2>O que provei no Japão</h2>
+    </section>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="photo">
+          <img src="../Restaurantes/images/Asakusa.png" />
+        </div>
+
+        <div class="content">
+          <h2>Asakusa kaminarimon Kuroge</h2>
+          <div class="rating">★★★★★</div>
+          <div class="tag">Tokyo</div>
+          <p>Croquetes de tudo - street Market</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="photo">
+          <img src="../Restaurantes/images/Nihonshugenka.png" />
+        </div>
+        <div class="content">
+          <h2>Nihonshugenka</h2>
+          <div class="rating">★★★★★</div>
+          <div class="tag">Shinjuku · Izakaya</div>
+          <p>Izakaya intimista.</p>
+
+          <div class="card-extra" style="display:none;">
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 1</p>
+            <p>Texto extra 2</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="card-popup" class="popup">
+  <span class="popup-bg"></span>
+  <div class="popup-card">
+    <button class="popup-close">✕</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const TOKEN = "irmaislonge2025";
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("token") !== TOKEN) {
+    document.body.innerHTML = `<div style="background:black;color:red;height:100vh;display:flex;justify-content:center;align-items:center;font-size:1.8rem;">⛔ Acesso não autorizado</div>`;
+    throw new Error("Token inválido");
+  }
+});
+
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    const popup = document.getElementById("card-popup");
+    const popupCard = popup.querySelector(".popup-card");
+
+    const imgSrc = card.querySelector("img")?.src || "";
+    const title = card.querySelector("h2")?.outerHTML || "";
+    const rating = card.querySelector(".rating")?.outerHTML || "";
+    const tag = card.querySelector(".tag")?.outerHTML || "";
+    const descShort = card.querySelector(".content p")?.outerHTML || "";
+    const descExtra = card.querySelector(".card-extra")?.innerHTML || "";
+
+    popupCard.innerHTML = `
+      <button class="popup-close">✕</button>
+      <div class="popup-photo"><img src="${imgSrc}"></div>
+      <div class="popup-main">
+        ${title}
+        ${rating}
+        ${tag}
+        ${descShort}
+      </div>
+      <div class="popup-extra">${descExtra}</div>
+    `;
+
+    popup.classList.add("active");
+    document.body.classList.add("popup-open");
+
+    popupCard.querySelector(".popup-close").addEventListener("click", () => {
+      popup.classList.remove("active");
+      document.body.classList.remove("popup-open");
+    });
+  });
+});
+
+document.querySelector(".popup-bg").addEventListener("click", () => {
+  document.getElementById("card-popup").classList.remove("active");
+  document.body.classList.remove("popup-open");
+});
+</script>
+
+</body>
+</html>
