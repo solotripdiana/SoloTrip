@@ -1,0 +1,552 @@
+:root {
+  --paper: #f4f1ea;
+  --ink: #171717;
+  --red: #c0362c;
+  --line: rgba(192, 54, 44, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Noto Serif JP", "Noto Sans JP", "Hiragino Mincho ProN",
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px) 0 0 / 22px 22px repeat,
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px) 0 0 / 26px 26px repeat,
+    var(--paper);
+  color: var(--ink);
+  line-height: 1.9;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* LAYOUT */
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+}
+
+.side {
+  border-right: 1px solid var(--line);
+  padding: 1.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.side-title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.35em;
+  font-size: 1.05rem;
+}
+
+.side-stamp {
+  border: 1px solid var(--red);
+  color: var(--red);
+  padding: 0.5rem 0.35rem;
+  font-size: 0.76rem;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.25em;
+  border-radius: 4px;
+  background: rgba(192, 54, 44, 0.05);
+  box-shadow: 0 0 0 1px rgba(192, 54, 44, 0.15) inset;
+}
+
+.main {
+  padding: 1.8rem 1.8rem 2.4rem;
+}
+
+/* HEADER */
+
+header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.3rem;
+  margin-bottom: 1.6rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.heading-block {
+  max-width: 520px;
+}
+
+.heading-kana {
+  font-size: 0.9rem;
+  letter-spacing: 0.4em;
+  color: #7b6c5e;
+}
+
+.heading-main {
+  font-family: "Noto Serif JP", serif;
+  font-size: 2.1rem;
+  letter-spacing: 0.22em;
+}
+
+.heading-sub {
+  font-size: 0.95rem;
+  color: #5e5245;
+}
+
+.hero-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.thumb-wrap {
+  width: 90px;
+  height: 90px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* NAV */
+
+nav {
+  font-size: 0.84rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+
+nav a { position: relative; }
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--red);
+  transition: width 0.18s ease-out;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* SECTIONS */
+
+.section {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.24em;
+  color: #7a6e61;
+}
+
+h2 {
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+}
+
+.two-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.3rem;
+}
+
+.quote {
+  border-left: 2px solid var(--red);
+  padding-left: 0.9rem;
+  font-style: italic;
+}
+
+/* GRID + CARDS */
+
+.grid {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transition: .12s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.photo {
+  height: 220px;
+  border-bottom: 1px solid var(--line);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  padding: 1.2rem 1.4rem 1.5rem;
+}
+
+.rating {
+  color: var(--red);
+  margin-bottom: 0.3rem;
+}
+
+.tag {
+  color: var(--red);
+  margin-bottom: 0.5rem;
+}
+
+
+.card-wrapper {
+  position: relative;
+}
+
+.card-badge {
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  z-index: 3;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  color: #fff;
+
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+
+
+/* ICON ROW */
+
+.icon-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.icon-row a {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-row a svg {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+
+
+/* POPUP (NOVO LAYOUT COMPLETO) */
+#card-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+  z-index: 9999;
+}
+
+#card-popup.active {
+  display: flex;
+}
+
+.popup-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.popup-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.45);
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.popup-photo {
+  width: 100%;
+  max-height: 35vh;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.popup-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popup-main {
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.popup-extra {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 40vh;
+  padding: 1.1rem 1.4rem;
+}
+
+.popup-extra::-webkit-scrollbar {
+  width: 12px;
+}
+
+.popup-extra::-webkit-scrollbar-thumb {
+  background: #8f897c;
+  border-radius: 8px;
+  border: 2px solid #f4f1e8;
+}
+
+
+body.popup-open { overflow: hidden; }
+
+.blur-start {
+  filter: blur(3px);
+  opacity: 0.7;
+}
+
+.blur-wrapper {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.blur-block {
+  filter: blur(6px);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+.blur-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.blur-overlay span {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  color: #fff;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+
+/* Layout geral das colunas */
+.good-bad {
+  gap: 4rem;
+  margin-top: 2.5rem;
+}
+
+/* Títulos */
+.good h3,
+.bad h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+/* Listas */
+.good ul,
+.bad ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Itens */
+.good ul li,
+.bad ul li {
+  padding: 0.9rem 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Separadores suaves */
+.good ul li:not(:last-child),
+.bad ul li:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* BOM — mais leve */
+.good {
+  max-width: 520px;
+}
+
+.good ul li {
+  opacity: 0.9;
+}
+
+/* MAU — menos “pesado” visualmente */
+.bad {
+  max-width: 520px;
+}
+
+
+.blur-block {
+  filter: blur(6px);
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* mantém espaçamento bonito */
+.good ul li,
+.bad ul li {
+  padding: 0.8rem 0;
+  line-height: 1.6;
+}
+
+/* Destaque subtil ao passar o rato */
+.good ul li:hover,
+.bad ul li:hover {
+  opacity: 1;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .good-bad {
+    gap: 2.5rem;
+  }
+}
+
+
+ 
+ .blur-wrapper {
+  position: relative;
+}
+
+/* bloco desfocado */
+.blur-block {
+  filter: blur(6px);
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* selo */
+.blur-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  color: #fff;
+
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jp-menu a.active {
+  border-bottom: 2px solid currentColor;
+  opacity: 1;
+}
+
+.card--blur {
+  position: relative;
+}
+
+.card--blur .photo,
+.card--blur .content {
+  filter: blur(6px);
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card--blur .card-badge {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 3;
+}
