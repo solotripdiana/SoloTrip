@@ -675,7 +675,7 @@ const RESTAURANTS = [
     "image": "images/restaurante/Coreia/MyeongdongNightMarket.jpg",
     "cuisine": ["Coreano","Seul"],
     "rating": "★★",
-    "intro": "Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.",
+    "intro": "Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.",
     "address": "https://maps.app.goo.gl/kZi628yznEMzZTif7?g_st=ipc",
     "instagram": "https://www.instagram.com/explore/locations/1784243711828898/myeong-dong-night-market/",
     "badges": ["Street Food"]
@@ -684,7 +684,7 @@ const RESTAURANTS = [
     "name": "Chosun Brazier Grill",
     "emoji": "",
     "image": "images/restaurante/Coreia/ChosunBrazierGrill.jpg",
-    "cuisine": ["Coreano","Seul"],
+    "cuisine": ["Coreano","Busan"],
     "rating": "★★★",
     "intro": "??????  ?????? ?????? ??????v ?????? ?????? ??????",
     "address": "https://naver.me/55Pm20nf",
@@ -1006,8 +1006,11 @@ function renderRestaurants(list){
     wrap.appendChild(card);
   });
   el('#count-rest').textContent = `${list.length} resultado(s)`;
-  el('#clear-filters')
-  .addEventListener('click', clearRestaurantFilters);
+  
+const clearBtn = el('#clear-filters');
+if (clearBtn) {
+  clearBtn.addEventListener('click', clearRestaurantFilters);
+}
 
 }
 
@@ -1135,8 +1138,8 @@ function setupFilters() {
       }
       // cozinha
       else {
-		activeCuisine = f?.toLowerCase() === 'all' ? 'all' : (f?.toLowerCase() || 'all');      }
-
+		activeCuisine = f?.toLowerCase() === 'all' ? 'all' : (f?.toLowerCase() || 'all');      
+}
       applyRestaurantFilters();
     });
   });
@@ -1209,18 +1212,6 @@ renderRestaurants(RESTAURANTS);
 setupFilters();
 setupHomeScroll();
 
-/* =========
-   Fade do Intro ao scroll
-   ========= */
-const intro = document.getElementById('intro');
-
-window.addEventListener('scroll', () => {
-  const max = 350; // px até desaparecer totalmente
-  const y = Math.min(window.scrollY, max);
-  const opacity = 1 - (y / max);
-
-  intro.style.opacity = opacity;
-});
 
 </script>
 
