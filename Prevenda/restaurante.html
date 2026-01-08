@@ -1,0 +1,1258 @@
+
+<!DOCTYPE HTML>
+<html lang="pt">
+<head>
+	<title>Restaurantes</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link	rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"	referrerpolicy="no-referrer"/>
+
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/script.js"></script>
+	<script src="analytics.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-B6HSM62Z1K"></script>
+</head>
+<style>
+:root{
+  --bg:#fff7ea;
+  --card:#ffffff;
+  --line:#e7e1d7;
+  --text:#39454b;
+  --muted:#6c7a81;
+  --jp:#e60026;
+  --kr:#0f4c81;
+  --accent:#98c593;
+  --shadow:0 8px 26px rgba(0,0,0,.08);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+}
+
+main{
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 16px;
+}
+
+h1{margin-bottom:12px}
+
+.toolbar{
+  display:flex;
+  gap:1px;
+  flex-wrap:wrap;
+  margin-bottom:1px;
+}
+
+button.filter{
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  font-size: 10pt;
+  line-height: 1.2em;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+
+  color: #b3262a;
+  background: rgba(255,255,255,0.65);
+
+  border: 1px solid #b3262a;
+  border-radius: 999px;
+
+ min-width: 150px;
+
+  padding: .35em 0;      /* altura controlada */
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+
+button.filter:hover{
+  background: #b3262a;
+  color: #fff;
+}
+
+
+button.filter.active{
+  background: linear-gradient(135deg,#39454b,#5b6a72);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+
+button.filter:hover{background:#b3262a}
+
+.cards{
+  display:grid;
+  gap:14px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  box-shadow:var(--shadow);
+  position:relative;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-2px)}
+
+.thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+  background:#eee;
+}
+
+.tag{
+  font-size:.9rem;
+  padding:.3em .6em;
+  border-radius:999px;
+  background:#f5f1ea;
+  border:1px solid #eadfcd;
+}
+
+.rating {
+  font-weight: 700;
+  color: #d4af37; 
+  font-size: 15px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+}
+
+.title{
+  font-weight:800;
+  margin:6px 0;
+}
+
+.desc{
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+.emoji{
+  position:absolute;
+  right:10px;
+  bottom:-8px;
+  font-size:56px;
+  opacity:.12;
+}
+
+/* Modal */
+.backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+.backdrop.show{display:flex}
+
+.modal{
+  background:#fff;
+  border-radius:18px;
+  max-width: 95%;
+  max-height: 95%;
+  
+  overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+  
+}
+
+.modal-header{
+  padding:12px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(90deg,rgba(230,0,38,.08),rgba(15,76,129,.08));
+}
+
+.modal-body{
+  padding:16px;
+  display:grid;
+  gap:10px;
+}
+
+.close{
+  border:0;
+  background:#eee;
+  border-radius:8px;
+  padding:.4em .6em;
+  cursor:pointer;
+}
+
+.badge{
+  font-size:.85rem;
+  padding:.35em .6em;
+  border-radius:10px;
+  background:#f1f5f9;
+  border:1px solid #e2e8f0;
+}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.hero{width:100%;border-radius:12px}
+
+.backdrop{
+  display:none;
+}
+.backdrop.show{display:flex}
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  z-index:1000;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  max-height: 80vh;
+}
+
+.modal-body{
+  overflow: hidden; /* garante que não aparece scroll */
+}
+
+.hero{
+  max-height: 30vh;     /* controla o tamanho da imagem */
+  object-fit: cover;
+}
+
+.count{
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 11.5pt;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  color: #0047A0;               
+  opacity: 1;
+
+  margin-left: 12px;
+  align-self: center;
+}
+
+
+/* Ações do modal: mapa + instagram */
+.map-link-inline{
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #39454b;
+  background: transparent;
+  border: 1px solid #e2e2e2;
+
+  text-decoration: none;
+  transition: 
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+}
+
+/* Ícone */
+.map-link-inline i{
+  font-size: 18px;
+  color: #b3262a;
+}
+
+/* Hover subtil */
+.map-link-inline:hover{
+  background: #f5f5f5;
+  border-color: #b3262a;
+  color: #b3262a;
+}
+
+
+
+
+
+
+
+/* --- Melhorias no Modal --- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Backdrop um pouco mais escuro para foco */
+  backdrop-filter: blur(4px); /* Efeito de desfoque no fundo */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 24px; /* Cantos mais suaves */
+  width: 100%;
+  max-width: 600px; /* Largura máxima controlada para equilíbrio */
+  max-height: 88vh; /* altura máxima  */
+  overflow-y: auto; /* Permite scroll se o conteúdo for longo */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  border: none;
+}
+
+.modal-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinha o fechar ao topo do título */
+  background: linear-gradient(135deg, rgba(230,0,38,0.05), rgba(15,76,129,0.05));
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  width: 100%;
+  max-height: 80vw; 
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+}
+
+/* --- Detalhes Internos (Badges e Links) --- */
+
+.badge-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: var(--muted);
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dois botões lado a lado */
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.map-link-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--line);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.map-link-inline:hover {
+  border-color: var(--jp);
+  color: var(--jp);
+  background: rgba(230, 0, 38, 0.02);
+}
+
+/* --- Ajuste Geral nos Botões de Filtro --- */
+
+button.filter {
+  padding: 10px 24px;
+  font-weight: 600;
+  border-radius: 12px; /* Menos arredondado "pílula", mais moderno */
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--muted);
+  min-width: auto; /* Remove largura fixa para ser flexível */
+}
+
+button.filter.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: #e2e8f0;
+}
+#intro{
+  transition: opacity .1s linear;
+  will-change: opacity;
+}
+
+.modal-meta {
+  display: flex;
+  gap: 12px;
+}
+
+.meta-box {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+  text-align: center;
+  color: #39454b;
+}
+
+.meta-box span {
+  font-size: 0.85rem;
+  color: #6c7a81;
+  display: block;
+}
+
+#modal-rating {
+  text-align: center;
+}
+
+#modal-rating .label {
+  display: block;
+  display: block;
+  font-size: 0.85rem;
+  color: #6c7a81;
+  margin-bottom: 4px;
+}
+
+#modal-rating .stars {
+  color: #d4af37;   /* dourado */
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+.desc {
+  line-height: 1.5;
+}
+.blur-block {
+    filter: blur(3px) grayscale(0.5); /* Blur muito forte e tira um pouco a cor */
+    pointer-events: none;
+    opacity: 0.5;
+    transition: none; /* Para não ficar nítido */
+}
+.blur-badge {
+background-color: #b3262a !important;  /*cor de fundo do selo*/
+    position: absolute !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.card:has(.blur-badge) {
+    pointer-events: none; /* Desativa o card inteiro */
+}
+
+.card:has(.blur-badge) .blur-badge {
+    pointer-events: auto;
+}
+
+
+</style>
+<body >
+
+<!-- HEADER -->
+	<header id="header">
+		<h1></h1>
+		<nav>
+		<ul>
+				<li><a href="index.html">Início</a></li>
+				<li><a href="actividades.html">Actividades</a></li>
+				<li><a href="bomemau.html">Bom e Mau</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<!-- Intro -->
+	<section id="intro" class="main style1 dark fullscreen">
+		<div class="content">
+			<header>
+				<h2>Restaurantes</h2>
+			</header>
+			<p>Uma seleção pessoal dos restaurantes mais marcantes por aí.</p>
+			
+			<footer>
+				<a href="#explorar" class="button style2 down">Explorar</a>
+			</footer>
+		</div>
+	</section>
+
+<div id="card-popup" class="popup">
+	<span class="popup-bg"></span>
+	<div class="popup-card">
+		<button class="popup-close" aria-label="Fechar">✕</button>
+	</div>
+</div>
+
+<!-- LISTA -->
+<section id="explorar" class="main style3 sad">
+	<div class="content">
+		<header>
+	<h2 class="h2-center">
+		<span class="h2-text-underline">Afinal, este corpinho de turista exige manutenção.</span>
+	</h2>
+</header>
+
+
+
+  <!-- RESTAURANTES  Coreia-->
+  <section id="restaurantes" class="view" aria-labelledby="rest-title">
+    <h1 id="rest-title" style="margin:0 0 10px;"></h1>
+    <div class="toolbar" role="group" aria-label="Filtros de restaurantes">
+      <button class="filter" data-filter="all">Todos</button>
+<button class="filter" data-filter="Seul">
+  <img src="images/koreaFlag.png" alt="Seul">
+  <span>Seul</span>
+</button>
+<button class="filter" data-filter="Busan">
+  <img src="images/koreaFlag.png" alt="Busan">
+  <span>Busan</span>
+</button>
+
+<button class="filter" data-filter="Tokyo">
+  <img src="images/japanFlag.png" alt="Tokyo">
+  <span>Tokyo</span>
+</button>
+
+<button class="filter" data-filter="Osaka">
+  <img src="images/japanFlag.png" alt="Osaka">
+  <span>Osaka</span>
+</button>
+
+<button class="filter" data-filter="Kyoto">
+  <img src="images/japanFlag.png" alt="Kyoto">
+  <span>Kyoto</span>
+</button>
+
+<button class="filter" data-filter="Hiroshima">
+  <img src="images/japanFlag.png" alt="Hiroshima">
+  <span>Hiroshima</span>
+</button>
+
+	   </div>
+	   <div class="toolbar" role="group" aria-label="Filtros de restaurantes">
+	   
+      <!--button class="filter" data-filter="★★">★★</button>
+      <button class="filter" data-filter="★★★">★★★</button>
+      <button class="filter" data-filter="★★★★">★★★★</button>
+      <button class="filter" data-filter="★★★★★">★★★★★</button-->
+	  <!--button id="clear-filters" class="filter">Limpar filtros</button-->
+
+      <span id="count-rest" class="count" style="margin-left:8px"></span>
+    </div>
+    <div id="cards-restaurantes" class="cards" aria-live="polite"></div>
+  </section>
+
+
+
+
+
+<!-- MODAL -->
+<div id="backdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h3 id="modal-title"></h3>
+      <button id="modal-close" aria-label="Fechar">✖</button>
+    </div>
+    <div class="modal-body">
+      <img id="modal-image" class="hero" alt="">
+      <div class="row" id="modal-tags"></div>
+      <p id="modal-desc" class="desc"></p>
+	  <div class="row modal-meta">
+  <div id="modal-rating" class="meta-box"></div>
+  <div id="modal-price" class="meta-box"></div>
+</div>
+
+      <div class="field">
+        <a id="modal-map" target="_blank" class="map-link-inline">
+          <i class="fa fa-map-marker"></i>
+        </a>
+        <a id="modal-insta" class="map-link-inline" target="_blank" rel="noopener" aria-label="Instagram" style="display:none">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+      <div class="row" id="modal-badges"></div>
+    </div>
+  </div>
+</div>
+<template id="restaurant-card-template">
+  <article class="card blur-wrapper" role="button" tabindex="0">
+
+    <div class="blur-block">
+      <div class="thumb-wrap">
+        <img class="thumb" loading="lazy" decoding="async">
+        <a class="map-link" target="_blank" aria-label="Abrir no mapa">📍</a>
+      </div>
+
+      <div class="top">
+        <span class="tag"></span>
+        <span class="rating"></span>
+      </div>
+
+      <h3 class="title"></h3>
+      <p class="desc"></p>
+      <div class="emoji" aria-hidden="true"></div>
+    </div>
+
+    <a href="https://joaomendes85.gumroad.com/l/KoreaJapan" class="blur-badge" target="_blank" rel="noopener">
+  Disponível no guia
+</a>
+
+
+  </article>
+</template>
+
+
+
+<!-- FOOTER -->
+<footer id="footer">
+	<ul class="menu">
+		<li>© <span id="footer-year"></span> Diana Nicolau ディアナ・ニコラウ</li>
+	</ul>
+</footer>
+
+
+
+<script>
+	document.getElementById("footer-year").textContent = new Date().getFullYear();
+/* =========
+   Dados (agora com imagens/thumbnails)
+   ========= */
+   function truncateWords(text, maxWords = 15) {
+  if (!text) return '';
+  const words = text.trim().split(/\s+/);
+  if (words.length <= maxWords) return text;
+  return words.slice(0, maxWords).join(' ') + '…';
+}
+
+   
+const RESTAURANTS = [
+
+  
+  {
+    "name": "Myeongdong Night Market",
+	"emoji": "",
+    "image": "images/restaurante/Coreia/MyeongdongNightMarket.jpg",
+    "cuisine": ["Coreano","Seul"],
+    "rating": "★★",
+    "intro": "Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.Mercado noturno vibrante no coração de Seul, cheio de street food icónica, luzes de néon e energia que nunca abranda.",
+    "badges": ["Street Food"]
+  },
+  {
+    "name": "Chosun Brazier Grill",
+    "emoji": "",
+    "image": "images/restaurante/Coreia/ChosunBrazierGrill.jpg",
+    "cuisine": ["Coreano","Seul"],
+    "rating": "★★★",
+    "intro": "??????  ?????? ?????? ??????v ?????? ?????? ??????",
+    "badges": ["????"]
+  },
+  {
+    "name": "Gangnam Market",
+    "emoji": "",
+    "image": "images/restaurante/Coreia/GangnamMarket.jpg",
+    "cuisine": ["Coreano","Seul","Tradicional"],
+    "rating": "★★★",
+    "intro": "Aqui perguntaram-me 'como é que descobriu isto, nunca vimos aqui turistas'. buffet all you can eat por 7€. Tradicional e delicioso.",
+    "badges": ["Não Turistico","Buffet 7€"]
+  },
+  {
+    "name": "Kura no Pan-ya",
+    "emoji": "🥖",
+    "image": "images/restaurante/Coreia/FlourArtisanBakery.jpg",
+    "cuisine": ["Coreano","Seul","Pastelaria"],
+    "rating": "★★★",
+    "price": "€€",
+    "intro": "Dizem que o pão aqui é amassado por anjos coreanos, mas só quem tem o guia é que sabe o caminho para o céu das calorias!",
+    "badges": ["Cuidado: Vicia"]
+  },
+  {
+    "name": "Kaminarimon Hiden-age",
+    "emoji": "🍗",
+    "image": "images/restaurante/Japao/AsakusaKaminarimonKuroge.jpg",
+    "cuisine": ["japonês","Tokyo"],
+    "rating": "★★★",
+    "price": "€",
+    "intro": "Tão estaladiço que o som se ouve em Portugal. Queres a localização exata? O guia conta-te o segredo!",
+    "badges": ["Crunchy"]
+  },
+  {
+    "name": "Shinjuku Sake-no-Ana",
+    "emoji": "🍶",
+    "image": "images/restaurante/Japao/Nihonshugenka.jpg",
+    "cuisine": ["japonês","Shinjuku"],
+    "rating": "★★★",
+    "price": "€€€",
+    "intro": "Um portal para outra dimensão onde o Sake nunca acaba. A chave do portal está no guia, não no Google!",
+    "badges": ["Intimista"]
+  },
+  {
+    "name": "Men-no-Kojin",
+    "emoji": "🍜",
+    "image": "images/restaurante/Japao/IchiranRamen.jpg",
+    "cuisine": ["japonês","Várias Cidades"],
+    "rating": "★★★",
+    "price": "€€",
+    "intro": "Aqui ninguém te julga por comeres com barulho. Queres saber como saltar a fila sem esforço? Compra o guia!",
+    "badges": ["Top Secret"]
+  },
+  {
+    "name": "Monja-Yaki Shiraiwa",
+    "emoji": "🥞",
+    "image": "images/restaurante/Japao/Okonomiyaki.jpg",
+    "cuisine": ["japonês","Asakusa"],
+    "rating": "★★★",
+    "price": "€€",
+    "intro": "Um Okonomiyaki tão bom que devia ser ilegal. Para descobrires este tesouro, vais ter de investir no guia!",
+    "badges": ["Misterioso"]
+  },
+  {
+    "name": "Yama-no-Tonkatsu Toyama",
+    "emoji": "🐖",
+    "image": "images/restaurante/Japao/Tonkatsu.jpg",
+    "cuisine": ["Japonês", "Asakusa"],
+    "rating": "★★★★★",
+    "price": "€€€",
+    "intro": "Até os vegans choram por este (e há opção para eles!). A morada exata é um privilégio de quem tem o guia.",
+    "badges": ["Lendário"]
+  },
+  {
+    "name": "Negando Kaiseki-ryori",
+    "emoji": "🍱",
+    "image": "images/restaurante/Japao/kaiseki.jpg",
+    "cuisine": ["Japonês", "Hakone"],
+    "rating": "★★★★★",
+    "price": "€€€€",
+    "intro": "Oito pratos de pura arte. Se queres comer como um Shogun, o guia é o teu mapa do tesouro pessoal.",
+    "badges": ["Luxo"]
+  },
+  {
+    "name": "Kozushi-ya no Kazoku",
+    "emoji": "🍣",
+    "image": "images/restaurante/Japao/sushiKozushi.jpg",
+    "cuisine": ["Japonês", "Shibu Onsen"],
+    "rating": "★★★★",
+    "price": "€€€",
+    "intro": "Peixe tão fresco que quase salta do prato. O nome real deste lugar? Só para VIPs com guia!",
+    "badges": ["Familiar"]
+  },
+  {
+    "name": "Maguro-Kurogin Tsukiji",
+    "emoji": "🐟",
+    "image": "images/restaurante/Japao/sushiMaguroya.jpg",
+    "cuisine": ["Japonês", "Tokyo"],
+    "rating": "★★★★★",
+    "price": "€€",
+    "intro": "Só para quem acorda cedo... e para quem tem o guia na mão para não se perder no labirinto do mercado!",
+    "badges": ["Mercado"]
+  },
+  {
+    "name": "Tako-Tama Kyoto",
+    "emoji": "🐙",
+    "image": "images/restaurante/Japao/takoyaki.jpg",
+    "cuisine": ["Japonês", "Kyoto"],
+    "rating": "★★★★★",
+    "price": "€",
+    "intro": "Queimam a língua, mas curam a alma. Onde estão as melhores bolas de polvo? Está tudo no guia!",
+    "badges": ["Quente!"]
+  },
+  {
+    "name": "Hikiniku-to-Kome Kyoto",
+    "emoji": "🍔",
+    "image": "images/restaurante/Japao/Hamburguer.jpg",
+    "cuisine": ["Kyoto", "Centro"],
+    "rating": "★★★★★",
+    "price": "€€",
+    "intro": "Mudar a vida por um hambúrguer? Sim. Mas primeiro tens de mudar a tua prateleira com o nosso guia!",
+    "badges": ["A Melhor Carne"]
+  },
+  {
+    "name": "Yakiniku Toku-Wagyu",
+    "emoji": "🥩",
+    "image": "images/restaurante/Japao/RoastedSushi.jpg",
+    "cuisine": ["Kyoto", "Wagyu"],
+    "rating": "★★★★",
+    "price": "€€€€",
+    "intro": "A fusão que não sabias que precisavas. Queres saber o que pedir ao chef? O guia dá-te a cábula!",
+    "badges": ["Wagyu Love"]
+  },
+  {
+    "name": "Umaimon Kenkyu-Rice",
+    "emoji": "🍙",
+    "image": "images/restaurante/Japao/riceburguer.jpg",
+    "cuisine": ["Kyoto", "Lab"],
+    "rating": "★★★★★",
+    "price": "€",
+    "intro": "Pão? Não, arroz! Esta maravilha de street food está escondida... a menos que tenhas o guia!",
+    "badges": ["Diferente"]
+  },
+  {
+    "name": "Oko-Tako-Osaka",
+    "emoji": "🥬",
+    "image": "images/restaurante/Japao/okonomiyaki_oko.jpg",
+    "cuisine": ["Osaka", "Vegan"],
+    "rating": "★★★★★",
+    "price": "€€",
+    "intro": "Até quem come carne vai querer o guia só para encontrar esta senhora e o seu Okonomiyaki mágico.",
+    "badges": ["Vegan King"]
+  },
+  {
+    "name": "Bassa Nova Harajuku",
+    "emoji": "🍜",
+    "image": "images/restaurante/Japao/greenCurry.jpg",
+    "cuisine": ["Tokyo", "Ramen"],
+    "rating": "---",
+    "price": "???",
+    "intro": "Dizem que fechou, mas haverá alternativa secreta? O guia tem sempre um plano B delicioso!",
+    "badges": ["RIP Ramen"]
+  },
+  {
+    "name": "Okonomi-mura Shiro",
+    "emoji": "🥞",
+    "image": "images/restaurante/Japao/okonomimura.jpg",
+    "cuisine": ["Hiroshima"],
+    "rating": "★★★★★",
+    "price": "€€",
+    "intro": "Vários andares de felicidade. Para saberes em qual deles se come melhor, tens de abrir o guia!",
+    "badges": ["Obrigatório"]
+  },
+  {
+    "name": "Mochi-Kashi Tsukiji",
+    "emoji": "🍡",
+    "image": "images/restaurante/Japao/moshis.jpg",
+    "cuisine": ["Tokyo", "Doces"],
+    "rating": "★★★★",
+    "price": "€",
+    "intro": "Tão fofos que dá pena comer. Mentira, vais querer comer todos. Vê a lista completa no guia!",
+    "badges": ["Docinho"]
+  },
+  {
+    "name": "Hakone Cheese Terrace",
+    "emoji": "🍰",
+    "image": "images/restaurante/Japao/Cheesecake.jpg",
+    "cuisine": ["Kanagawa", "Hakone"],
+    "rating": "★★★★",
+    "price": "€€",
+    "intro": "A fatia de bolo vem com uma vista de milhões. Onde estacionar sem stress? O guia explica!",
+    "badges": ["Vista Topo"]
+  },
+  {
+    "name": "Suzukien Matcha-ya",
+    "emoji": "🍵",
+    "image": "images/restaurante/Japao/masha.jpg",
+    "cuisine": ["Asakusa", "Matcha"],
+    "rating": "★★★★",
+    "price": "€€",
+    "intro": "Sete níveis de intensidade de Matcha. Só quem tem o guia sobrevive ao nível 7 sem tremer!",
+    "badges": ["Matcha Power"]
+  },
+  {
+    "name": "Pablo-no-Tarte Osaka",
+    "emoji": "🥧",
+    "image": "images/restaurante/Japao/pablo.jpg",
+    "cuisine": ["Osaka", "Doces"],
+    "rating": "★★★★",
+    "price": "€€",
+    "intro": "Um clássico de Osaka que te vai fazer lamber o prato. A localização exata? Só para quem tem o guia!",
+    "badges": ["Queijo!"]
+  },
+  {
+    "name": "Soba-Dokoro Ginza",
+    "emoji": "🥢",
+    "image": "images/restaurante/Japao/soba.jpg",
+    "cuisine": ["Yanaka", "Ginza"],
+    "rating": "★★",
+    "price": "€€",
+    "intro": "Para encontrares o sítio autêntico e não a armadilha para turistas, o guia é o teu melhor amigo.",
+    "badges": ["Tradicional"]
+  }
+
+];
+
+/* =========
+   Helpers
+   ========= */
+const el = sel => document.querySelector(sel);
+const els = sel => Array.from(document.querySelectorAll(sel));
+
+function makeCard({ title, subtitle, intro, emoji, image, dataset = {} }){
+  const tpl = document.getElementById('restaurant-card-template');
+  const node = tpl.content.cloneNode(true);
+  const card = node.querySelector('.card');
+
+  card.setAttribute('aria-label', `${title}. Abrir detalhes`);
+
+  Object.entries(dataset).forEach(([k,v]) => card.dataset[k] = v);
+
+  node.querySelector('.thumb').src = image;
+  node.querySelector('.thumb').alt = `Miniatura de ${title}`;
+
+  node.querySelector('.tag').textContent = subtitle;
+  node.querySelector('.rating').textContent = dataset.rating || '';
+  node.querySelector('.title').textContent = title;
+  node.querySelector('.desc').textContent = intro;
+  node.querySelector('.emoji').textContent = emoji || '';
+
+  const mapLink = node.querySelector('.map-link');
+  if (dataset.mapUrl){
+    mapLink.href = dataset.mapUrl;
+  } else {
+    mapLink.remove();
+  }
+
+  
+  card.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' || e.key === ' ') card.click();
+  });
+
+  return node;
+}
+
+/* =========
+   Render
+   ========= */
+function renderRestaurants(list){
+  const wrap = el('#cards-restaurantes');
+  wrap.innerHTML = '';
+
+  list.forEach((r, index) => {
+    const subtitle = r.cuisine.map(c => c[0].toUpperCase()+c.slice(1)).join(' · ');
+
+    const card = makeCard({
+      title: r.name,
+      subtitle,
+      intro: truncateWords(r.intro, 15),
+      emoji: r.emoji,
+      image: r.image,
+      dataset: {
+        type: 'rest',
+        rating: r.rating,
+        cuisine: r.cuisine.join(','),
+        title: r.name,
+        intro: r.intro,
+        address: r.address,
+        instagram: r.instagram,
+        emoji: r.emoji,
+        image: r.image,
+        badges: r.badges.join('|'),
+        tags: subtitle
+      }
+    });
+
+const article = card.querySelector('.card');
+
+if (index < 3) {
+    // CASO 1: Restaurantes Abertos
+    article.querySelector('.blur-block')?.classList.remove('blur-block');
+    article.querySelector('.blur-badge')?.remove();
+    
+    // Só o card aberto é que funciona como botão
+    article.addEventListener('click', () => openModalFromDataset(article.dataset));
+} else {
+    // CASO 2: Restaurantes Bloqueados
+    // Removemos as propriedades de acessibilidade de botão para não confundir o browser
+    article.removeAttribute('role');
+    article.removeAttribute('tabindex');
+    article.style.cursor = 'default';
+
+    const badge = article.querySelector('.blur-badge');
+    if (badge) {
+        // Forçamos o link a ser absoluto e funcional
+        badge.addEventListener('click', (e) => {
+            // Se o link normal falhar, isto garante a abertura:
+            e.stopPropagation();
+        });
+    }
+}
+wrap.appendChild(card);
+
+    wrap.appendChild(card);
+  });
+
+  el('#count-rest').textContent = `${list.length} resultado(s)`;
+}
+
+/* =========
+   Modal
+   ========= */
+const backdrop = el('#backdrop');
+const closeBtn = el('#modal-close');
+
+function openModalFromDataset(ds){
+document.body.style.overflow = 'hidden';
+
+  el('#modal-title').textContent = ds.title || '';
+  el('#modal-desc').textContent = ds.intro || '';
+
+const ratingBox = el('#modal-rating');
+
+if (ds.rating) {
+  ratingBox.innerHTML = `
+    <span class="label">Classificação</span>
+    <span class="stars">${ds.rating}</span>
+  `;
+  ratingBox.style.display = 'block';
+} else {
+  ratingBox.style.display = 'none';
+}
+const priceBox = el('#modal-price');
+
+if (ds.price) {
+  priceBox.innerHTML = `<span>Preço</span><span class="price">${ds.price}</span>`;
+  priceBox.style.display = 'block';
+} else {
+  priceBox.style.display = 'none';
+}
+
+  const img = el('#modal-image');
+  img.src = ds.image || '';
+  img.alt = ds.title ? `Imagem de ${ds.title}` : '';
+
+  // 📍 Mapa
+  const mapLink = el('#modal-map');
+  if (ds.address){
+    mapLink.href = ds.address;
+    mapLink.style.display = 'inline-flex';
+  } else {
+    mapLink.style.display = 'none';
+  }
+
+  // 📸 Instagram
+  const instaLink = el('#modal-insta');
+  if (ds.instagram){
+    instaLink.href = ds.instagram;
+    instaLink.style.display = 'inline-flex';
+  } else {
+    instaLink.style.display = 'none';
+  }
+
+  // Tags
+  const tags = el('#modal-tags');
+  tags.innerHTML = '';
+  (ds.tags || '').split(',').forEach(t=>{
+    if(t){
+      const span = document.createElement('span');
+      span.className = 'badge';
+      span.textContent = t;
+      tags.appendChild(span);
+    }
+  });
+
+  // Badges
+  const badges = el('#modal-badges');
+  badges.innerHTML = '';
+  (ds.badges || '').split('|').forEach(b=>{
+    if(b){
+      const span = document.createElement('span');
+      span.className = 'badge';
+      span.textContent = b;
+      badges.appendChild(span);
+    }
+  });
+
+  backdrop.classList.add('show');
+  backdrop.setAttribute('aria-hidden','false');
+}
+
+
+function closeModal(){
+document.body.style.overflow = '';
+
+  backdrop.classList.remove('show');
+  backdrop.setAttribute('aria-hidden','true');
+}
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+closeBtn.addEventListener('click', closeModal);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+/* =========
+   Tabs / Filtros / Menu
+   ========= */
+function setActiveView(viewId){
+  els('.tab').forEach(x=> x.classList.toggle('active', x.dataset.view === viewId));
+  els('.view').forEach(v=> v.classList.toggle('active', v.id === viewId));
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+}
+els('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=> setActiveView(btn.dataset.view));
+});
+
+/* Filtros com correção do “Todos” */
+function setupFilters() {
+  els('#restaurantes .filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+
+      // remover active do grupo
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.filter')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // estrelas
+      if (['★','★★','★★★','★★★★','★★★★★'].includes(f)) {
+        activeRating = f;
+      }
+      // cozinha
+      else {
+		activeCuisine = f?.toLowerCase() === 'all' ? 'all' : (f?.toLowerCase() || 'all');      }
+
+      applyRestaurantFilters();
+    });
+  });
+}
+
+
+
+function applyRestaurantFilters() {
+  let list = RESTAURANTS.slice();
+
+  if (activeCuisine !== 'all') {
+    list = list.filter(r =>
+      r.cuisine.some(c => c.toLowerCase() === activeCuisine)
+    );
+  }
+
+  if (activeRating !== 'all') {
+    list = list.filter(r => r.rating === activeRating);
+  }
+
+  renderRestaurants(list);
+}
+
+/* Menu hamburguer */
+/*const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', ()=>{
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+});*/
+
+/* =========
+   Scroll: anima entrada das panels da Home
+   ========= */
+function setupHomeScroll(){
+  const targets = [el('#panel-dicas'), el('#panel-goodbad')].filter(Boolean);
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  },{ rootMargin:'-10% 0px -10% 0px', threshold: 0.1 });
+  targets.forEach(t=> io.observe(t));
+}
+
+function clearRestaurantFilters() {
+  activeCuisine = 'all';
+  activeRating = 'all';
+
+  // remover estados ativos
+  els('#restaurantes .filter')
+    .forEach(b => b.classList.remove('active'));
+
+  // reativar "Todos" e "Todas"
+  el('#restaurantes .filter[data-filter="all"]')?.classList.add('active');
+  el('#restaurantes .filter[data-filter="all-stars"]')?.classList.add('active');
+
+  renderRestaurants(RESTAURANTS);
+}
+
+
+/* =========
+   Boot
+   ========= */
+   
+clearRestaurantFilters();
+renderRestaurants(RESTAURANTS);
+setupFilters();
+setupHomeScroll();
+
+/* =========
+   Fade do Intro ao scroll
+   ========= */
+const intro = document.getElementById('intro');
+
+window.addEventListener('scroll', () => {
+  const max = 350; // px até desaparecer totalmente
+  const y = Math.min(window.scrollY, max);
+  const opacity = 1 - (y / max);
+
+  intro.style.opacity = opacity;
+});
+
+</script>
+
+</body>
+</html>

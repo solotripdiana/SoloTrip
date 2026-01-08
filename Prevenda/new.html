@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Yōkoso & Annyeong — Guia Responsivo</title>
+<meta name="description" content="Guia leve e divertido de Restaurantes e Actividades, totalmente responsivo, tema Japão & Coreia.">
+<meta name="theme-color" content="#e60026" />
+
+<!-- Tipografia + Ícones -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dYyr2aKp2c3o5uOe0zJ2yK+9yJZ0n0y4QH7U1AqgJr6xL/4sI9B8kGf9q0N7P8+g0sOa9Gm2XqJQwQn8vY+K0A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  :root{
+    --ink:#0f0f10;
+    --cream:#fff7ea;
+    --cloud:#f6f6f6;
+    --jp-red:#e60026;
+    --kr-blue:#0f4c81;
+    --matcha:#2e7d32;
+    --sumi:#22252a;
+    --line:#e7e1d7;
+    --card:#ffffff;
+    --shadow: 0 8px 26px rgba(0,0,0,.08);
+    --radius-lg: 20px;
+    --radius-sm: 12px;
+
+    --fs-0: clamp(0.92rem, 0.86rem + 0.35vw, 1.05rem);
+    --fs-1: clamp(1.05rem, 0.98rem + 0.5vw, 1.25rem);
+    --fs-2: clamp(1.35rem, 1.15rem + 1.1vw, 1.9rem);
+    --fs-3: clamp(1.9rem, 1.4rem + 2.2vw, 3.2rem);
+
+    --btn-h: 3.2em;
+    --btn-r: 3.5em;
+    --btn-bg: #98c593;
+    --btn-bg-hover:#a8cea4;
+    --btn-bg-active:#88bc82;
+    --btn-border:#e5e6e7;
+    --text:#39454b;
+    --muted:#6c7a81;
+  }
+
+  *, *::before, *::after { box-sizing: border-box }
+  html, body { height: 100% }
+  html{ -webkit-text-size-adjust: 100% }
+  img{ max-width:100%; height:auto; display:block }
+  a{ color: #98c593; text-decoration: none; transition: color .2s ease-in-out }
+  a:hover{ color:#a8cea4 }
+  hr{ border:0; border-top:1px solid var(--btn-border) }
+  :focus-visible{ outline:3px solid var(--kr-blue); outline-offset:2px }
+
+  body{
+    margin:0;
+    font-family: "Source Sans Pro", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP","Noto Sans KR", Arial, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 24px 24px, rgba(0,0,0,.03) 2px, transparent 3px) 0 0/48px 48px,
+      linear-gradient(180deg, var(--cream), var(--cream)) 0 0/100% 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: var(--fs-0);
+    line-height:1.75;
+    letter-spacing: .02em;
+    padding-top: 3.25em; /* header fixo */
+  }
+  h1,h2,h3,h4,h5,h6{ font-weight:900; letter-spacing:-0.03em; color:inherit; margin:0 0 .4em }
+  h1{ font-size: var(--fs-3) }
+  h2{ font-size: var(--fs-2) }
+  h3{ font-size: var(--fs-1) }
+
+  button, .button, .filter, .tab, .close, .burger{
+    appearance:none; border:0; cursor:pointer; font: inherit; color:#fff;
+    background-color: var(--btn-bg);
+    border-radius: var(--btn-r);
+    height: var(--btn-h); line-height: var(--btn-h);
+    padding:0 1.1em; display:inline-flex; align-items:center; justify-content:center;
+    transition: background-color .2s ease-in-out, transform .15s ease;
+  }
+  button:hover{ background-color: var(--btn-bg-hover) }
+  button:active{ background-color: var(--btn-bg-active); transform: translateY(1px) }
+  .button.style2, .close, .filter{
+    background: transparent; color: inherit; border:2px solid var(--btn-border); height:auto; line-height:1; padding:.75em .9em; border-radius: 0.75em;
+  }
+  .filter:hover{ background-color: rgba(229,230,231,.25) }
+  .filter:active{ background-color: rgba(229,230,231,.4) }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important } }
+
+  /* Header */
+  header#site-header{
+    position: fixed; top:0; left:0; right:0; z-index: 1000;
+    background: rgba(255,255,255,.95);
+    box-shadow: 0 0 0.15em rgba(0,0,0,.12);
+    backdrop-filter: blur(6px);
+  }
+  .nav{
+    max-width:1100px; margin:0 auto; padding:8px 16px;
+    display:flex; align-items:center; gap:12px; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:10px }
+  .brand .logo{
+    width:40px; height:40px; border-radius:12px;
+    background: linear-gradient(135deg, var(--jp-red), var(--kr-blue));
+    display:grid; place-items:center; color:#fff; font-size:20px; box-shadow: inset 0 -3px 0 rgba(0,0,0,.15);
+  }
+  .brand .text{ line-height:1.1 }
+  .brand .title{ font-weight:900; font-size:var(--fs-1) }
+  .brand .sub{ opacity:.8; font-size:.9em }
+
+  .menu{ display:flex; gap:6px; align-items:center }
+  .tab{
+    border-radius:14px; background: transparent; color: inherit; border:2px solid var(--btn-border);
+    padding:.55em .85em; height:auto; line-height:1;
+  }
+  .tab:hover{ background: rgba(229,230,231,.25) }
+  .tab.active{
+    background: linear-gradient(90deg, var(--jp-red), var(--kr-blue)); color:#fff; border-color: transparent; box-shadow: var(--shadow);
+  }
+
+  /* Menu mobile */
+  .burger{
+    background: linear-gradient(90deg, var(--jp-red), var(--kr-blue));
+    color:#fff; border-radius:10px; font-size:1.1rem; height: 2.6em; line-height: 2.6em; padding: 0 .9em;
+  }
+  .burger[aria-expanded="true"]{ filter: saturate(1.2) }
+
+  @media (max-width: 720px){
+    .menu{ display:none; position:absolute; left:0; right:0; top:100%; background:rgba(0,0,0,.35); backdrop-filter: blur(6px); padding:8px }
+    .menu.open{ display:flex; justify-content:center }
+    .tab{ background:rgba(255,255,255,.12); color:#fff; border-color: transparent }
+    header#site-header{ background: linear-gradient(90deg, rgba(230,0,38,.95), rgba(15,76,129,.95)) }
+  }
+
+  .stripe{ height:6px; background: repeating-linear-gradient(45deg, #0000 0 8px, rgba(0,0,0,.08) 8px 16px) }
+
+  /* Layout */
+  main{ max-width:1100px; margin:22px auto 64px; padding:0 16px }
+  .view{ display:none; animation:fade .25s ease }
+  .view.active{ display:block }
+  @keyframes fade{ from{ opacity:0; transform: translateY(4px) } to{ opacity:1; transform:none } }
+
+  /* Painéis/Cards */
+  .panel{
+    background:var(--card); border:1px solid var(--line); border-radius: var(--radius-lg);
+    padding: clamp(14px, 3vw, 22px); box-shadow: var(--shadow); position:relative; overflow:hidden;
+  }
+  .panel h2{ margin:0 0 10px; font-size: var(--fs-2); display:flex; gap:8px; align-items:center }
+  .panel h3{ margin:.25rem 0 .5rem; font-size: var(--fs-1) }
+  .panel small{ color:var(--muted) }
+  .list{ margin:.5rem 0 0; padding-left: 1.1rem }
+  .list li{ margin: .25rem 0 }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px }
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 12px; border-radius:16px; border:1px dashed #e1d9cc; background:#fff;
+  }
+
+  .grid-home{ display:grid; gap:16px; grid-template-columns: 1fr }
+  @media(min-width: 960px){ .grid-home{ grid-template-columns: 1.3fr .7fr } }
+
+  /* Intro + animações de entrada */
+  .intro{
+    background:var(--card); border:1px solid var(--line); border-radius: var(--radius-lg);
+    padding: clamp(14px, 3vw, 22px); box-shadow: var(--shadow); margin-bottom:16px;
+  }
+  .slide{ opacity:0; transform: translateX(var(--dx)); transition: transform .6s ease, opacity .6s ease }
+  .slide.in{ opacity:1; transform: translateX(0) }
+  .slide-left{ --dx: -40px }
+  .slide-right{ --dx: 40px }
+
+  /* Cards com thumbnail */
+  .cards{
+    display:grid; gap:14px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  @media (min-width:1024px){
+    .cards{ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) }
+  }
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:12px; position:relative; overflow:hidden;
+    box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease; min-height: 160px;
+  }
+  .card:hover{ transform: translateY(-2px) }
+  .thumb{
+    width:100%; aspect-ratio: 16/9; object-fit: cover;
+    border-radius:12px; margin-bottom:10px; background:#eee;
+  }
+  .card .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap }
+  .tag{ font-size:.9rem; padding:.45em .6em; border-radius:999px; background:#f5f1ea; border:1px solid #eadfcd }
+  .price{ font-weight:900; color:var(--matcha) }
+  .title{ font-weight:900; font-size:1.15rem; margin:0 0 6px }
+  .desc{ color:var(--muted); font-size:1rem; margin:0 0 6px }
+  .emoji{ position:absolute; right:10px; bottom:-8px; font-size:62px; opacity:.12; pointer-events:none }
+
+  /* Modal */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(0,0,0,.45);
+    display:none; align-items:center; justify-content:center; padding:18px; z-index:100;
+  }
+  .modal-backdrop.show{ display:flex; animation:fade .2s ease }
+  .modal{
+    width: min(720px, 95vw); background:var(--card); border-radius:18px; border:1px solid var(--line);
+    box-shadow: 0 24px 60px rgba(0,0,0,.35); overflow:hidden;
+  }
+  .modal-header{
+    padding:12px 14px;
+    background: linear-gradient(90deg, rgba(230,0,38,.08), rgba(15,76,129,.08));
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  }
+  .modal-header h3{ margin:0; font-size: var(--fs-1) }
+  .close{ min-height:44px; min-width:44px; }
+  .modal-body{ padding:14px; display:grid; gap:12px; font-size: var(--fs-0) }
+  .row{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+  .badge{ font-size:.9rem; padding:.45em .6em; border-radius:10px; background:#f1f5f9; border:1px solid #e2e8f0 }
+  .field{ display:flex; gap:8px; align-items:flex-start; color:inherit; flex-wrap:wrap }
+  .field b{ min-width: 110px }
+  .hero{
+    width:100%; aspect-ratio: 3/2; object-fit: cover;
+    border-radius:12px; background:#eee;
+  }
+
+  .corner{
+    position:absolute; inset:auto -16px  -16px auto; transform:rotate(-12deg);
+    width:80px; height:80px; opacity:.08; pointer-events:none;
+    background:
+      radial-gradient(circle at 25% 25%, var(--jp-red) 25%, #0000 26%) 0 0/24px 24px,
+      radial-gradient(circle at 75% 25%, var(--kr-blue) 25%, #0000 26%) 0 0/24px 24px,
+      radial-gradient(circle at 50% 70%, #111 34%, #0000 35%) 0 0/24px 24px;
+    border-radius:16px;
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="nav">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🍣</div>
+      <div class="text">
+        <div class="title">Yōkoso & Annyeong</div>
+        <div class="sub">Guia — Japão 🇯🇵 & Coreia 🇰🇷</div>
+      </div>
+    </div>
+
+    <nav id="menu" class="menu" aria-label="Menu principal">
+      <button class="tab active" data-view="home">🏠 Home</button>
+      <button class="tab" data-view="restaurantes">🍜 Restaurantes</button>
+      <button class="tab" data-view="actividades">🎎 Actividades</button>
+    </nav>
+
+    <button id="burger" class="burger" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="stripe" aria-hidden="true"></div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="view active" aria-labelledby="home-title">
+    <h1 id="home-title" style="margin:0 0 10px;">Bem‑vindo! 🥢</h1>
+
+    <!-- Texto introdutório -->
+    <div class="intro">
+      <p style="margin:0 0 8px; max-width:65ch">
+        Este guia rápido reúne os melhores sabores do Japão e da Coreia no Fundão:
+        restaurantes, actividades e dicas práticas para aproveitares ao máximo. Usa os filtros,
+        pesquisa em tempo real e clica nas cartas para veres detalhes com imagem e contactos.
+        Bom apetite — <em>itadakimasu</em> & <em>jal meokgetseumnida</em>! 🇯🇵🇰🇷
+      </p>
+    </div>
+
+    <div class="grid-home">
+      <div id="panel-dicas" class="panel slide slide-left">
+        <span class="corner" aria-hidden="true"></span>
+        <h2>✨ Dicas</h2>
+        <ul class="list">
+          <li>Japonês: se estiver indeciso, peça <em>omakase</em> — o chef surpreende!</li>
+          <li>Coreano: partilhar é a regra — prova os <em>banchan</em> (acompanhamentos).</li>
+          <li>Ramen não se parte: sorve com orgulho — é sinal de que está bom 😄.</li>
+          <li>BBQ coreano: grelha aos poucos; não enchas a chapa de uma vez.</li>
+          <li>Pauzinhos: nunca os espete na tigela de arroz.</li>
+        </ul>
+        <div class="row" style="margin-top:10px; color:var(--muted)">💡 Dica ninja: usa os filtros nas páginas para afunilar a tua missão gastronómica.</div>
+      </div>
+
+      <div id="panel-goodbad" class="panel slide slide-right">
+        <h2>☯️ Good / Bad</h2>
+        <div style="display:grid; gap:12px; grid-template-columns:1fr 1fr">
+          <div>
+            <h3>😄 Good</h3>
+            <div class="chips">
+              <span class="pill">Atendimento simpático</span>
+              <span class="pill">Preço justo</span>
+              <span class="pill">Opções vegetarianas</span>
+              <span class="pill">Reservas online</span>
+            </div>
+          </div>
+          <div>
+            <h3>🙃 Bad</h3>
+            <div class="chips">
+              <span class="pill">Espera longa</span>
+              <span class="pill">Barulho</span>
+              <span class="pill">Sem multibanco</span>
+              <span class="pill">Menu sem inglês</span>
+            </div>
+          </div>
+        </div>
+        <small>Podes personalizar estes itens no HTML conforme as tuas preferências.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESTAURANTES -->
+  <section id="restaurantes" class="view" aria-labelledby="rest-title">
+    <h1 id="rest-title" style="margin:0 0 10px;">🍣 Restaurantes</h1>
+    <div class="toolbar" role="group" aria-label="Filtros de restaurantes">
+      <button class="filter" data-filter="all">Todos</button>
+      <button class="filter" data-filter="japonês">Japonês</button>
+      <button class="filter" data-filter="coreano">Coreano</button>
+      <button class="filter" data-filter="bbq">BBQ</button>
+      <button class="filter" data-filter="€">€</button>
+      <button class="filter" data-filter="€€">€€</button>
+      <button class="filter" data-filter="€€€">€€€</button>
+      <span id="count-rest" class="count" aria-live="polite" style="margin-left:8px"></span>
+    </div>
+    <div id="cards-restaurantes" class="cards" aria-live="polite"></div>
+  </section>
+
+  <!-- ACTIVIDADES -->
+  <section id="actividades" class="view" aria-labelledby="act-title">
+    <h1 id="act-title" style="margin:0 0 10px;">🎉 Actividades</h1>
+    <div class="toolbar" role="group" aria-label="Filtros de actividades">
+      <button class="filter" data-filter="all">Todas</button>
+      <button class="filter" data-filter="workshop">Workshop</button>
+      <button class="filter" data-filter="música">Música</button>
+      <button class="filter" data-filter="cultura">Cultura</button>
+      <button class="filter" data-filter="família">Família</button>
+      <span id="count-act" class="count" aria-live="polite" style="margin-left:8px"></span>
+    </div>
+    <div id="cards-actividades" class="cards" aria-live="polite"></div>
+  </section>
+</main>
+
+<!-- MODAL -->
+<div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" role="document">
+    <div class="modal-header">
+      <h3 id="modal-title">Detalhes</h3>
+      <button class="close" id="modal-close" aria-label="Fechar (Esc)">✖</button>
+    </div>
+    <div class="modal-body">
+      <img id="modal-image" class="hero" alt="" loading="lazy" decoding="async">
+      <div class="row" id="modal-tags"></div>
+      <p id="modal-desc" class="desc" style="margin:0"></p>
+      <div class="field"><b>Localização:</b><span id="modal-address"></span></div>
+      <div class="field"><b>Horário:</b><span id="modal-hours"></span></div>
+      <div class="field"><b>Contacto:</b><span id="modal-contact"></span></div>
+      <div class="row" id="modal-badges"></div>
+      <div class="row"><span class="kawaii" id="modal-emoji" style="font-size:40px" aria-hidden="true">🍣</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========
+   Dados (agora com imagens/thumbnails)
+   ========= */
+const RESTAURANTS = [
+  {
+    name: "Sakura Sushi",
+    emoji: "🍣",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["japonês"],
+    price: "€€",
+    intro: "Nigiri clássico, sashimi fresco e um miso que abraça a alma.",
+    address: "Centro, Fundão",
+    hours: "Ter–Dom 12:00–15:00, 19:00–22:30",
+    contact: "📞 275 000 000 · IG: @sakura_sushi",
+    badges: ["Omakase", "Chá quente", "Menu degustação"]
+  },
+  {
+    name: "Seoul BBQ",
+    emoji: "🔥",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["coreano","bbq"],
+    price: "€€€",
+    intro: "BBQ na mesa, cortes premium e banchan à vontade. Grela sem medo!",
+    address: "Av. Principal, Fundão",
+    hours: "Diariamente 12:30–23:00",
+    contact: "📞 275 111 111",
+    badges: ["Sem glúten", "Reservas", "Ventilação top"]
+  },
+  {
+    name: "Ramen Tanuki",
+    emoji: "🍜",
+    image: "https://images.unsplash.com/photo-1543353071-087092ec393f?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["japonês"],
+    price: "€€",
+    intro: "Caldo a ferver, noodles elásticos e chashu que derrete.",
+    address: "Largo do Mercado",
+    hours: "Qua–Seg 12:00–22:00 (fecha Ter)",
+    contact: "📞 275 222 222",
+    badges: ["Spicy level", "Veggie ramen", "Egg marinado"]
+  },
+  {
+    name: "Bibim & Kimchi",
+    emoji: "🥬",
+    image: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["coreano"],
+    price: "€",
+    intro: "Caseiro, picante q.b., porções generosas. Bom e sem complicações.",
+    address: "Rua da Fonte",
+    hours: "Ter–Dom 12:00–21:30",
+    contact: "📞 275 333 333",
+    badges: ["Take-away", "Picância ajustável"]
+  },
+  {
+    name: "Izakaya Neko",
+    emoji: "🍶",
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["japonês"],
+    price: "€€€",
+    intro: "Petiscos, sake gelado e ambiente para longas conversas.",
+    address: "Travessa do Sol",
+    hours: "Qui–Dom 18:30–01:00",
+    contact: "📞 275 444 444",
+    badges: ["Sake list", "Yakitori", "Happy hour"]
+  },
+  {
+    name: "K-Kitchen",
+    emoji: "🍗",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=60",
+    cuisine: ["coreano"],
+    price: "€€",
+    intro: "Fried chicken crocante, tteokbokki e soju para celebrar.",
+    address: "Parque Comercial",
+    hours: "Diariamente 12:00–23:00",
+    contact: "📞 275 555 555",
+    badges: ["Soju flavors", "Combo amigos"]
+  },
+];
+
+const ACTIVITIES = [
+  {
+    name: "Karaoke Night",
+    emoji: "🎤",
+    image: "https://images.unsplash.com/photo-1545665277-5937489579f5?auto=format&fit=crop&w=900&q=60",
+    tags: ["música","cultura","família"],
+    price: "€€",
+    intro: "Solta a tua power ballad — microfone pronto e lista infinita!",
+    address: "Sala Neon",
+    hours: "Sex & Sáb 21:00–01:00",
+    contact: "🎫 Reserva online",
+    badges: ["Salas privadas", "Top hits", "Partilha snacks"]
+  },
+  {
+    name: "Workshop Kimchi",
+    emoji: "🥬",
+    image: "https://images.unsplash.com/photo-1514510651483-49ad9f67c36c?auto=format&fit=crop&w=900&q=60",
+    tags: ["workshop","cultura"],
+    price: "€",
+    intro: "Mãos na massa (e na pimenta)! Leva o teu frasco para casa.",
+    address: "Atelier Pop-up",
+    hours: "Dom 15:00–17:00",
+    contact: "📧 kimchi@atelier.pt",
+    badges: ["Veg-friendly", "Receita impressa"]
+  },
+  {
+    name: "Origami & Caligrafia",
+    emoji: "🖌️",
+    image: "https://images.unsplash.com/photo-1520975922371-24baf9380d65?auto=format&fit=crop&w=900&q=60",
+    tags: ["cultura","família","workshop"],
+    price: "€",
+    intro: "Dobra, pinta, respira — zen em formato A4.",
+    address: "Biblioteca Municipal",
+    hours: "Sáb 10:30–12:00",
+    contact: "📞 275 666 666",
+    badges: ["Material incluído", "Para todas as idades"]
+  },
+  {
+    name: "Taiko Experience",
+    emoji: "🥁",
+    image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=60",
+    tags: ["música","cultura"],
+    price: "€€€",
+    intro: "Bateria japonesa — sente o impacto no peito (e na alma).",
+    address: "Auditório",
+    hours: "Datas pontuais",
+    contact: "🎟 Bilhetes na bilheteira",
+    badges: ["Prot. ouvidos", "Demo final"]
+  },
+  {
+    name: "K‑BBQ Masterclass",
+    emoji: "🔥",
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=60",
+    tags: ["workshop","cultura","família"],
+    price: "€€",
+    intro: "Cortes, marinadas, tempos — a grelha sem segredos.",
+    address: "Escola de Cozinha",
+    hours: "Qui 19:00–21:00",
+    contact: "📧 bbq@class.pt",
+    badges: ["Degustação", "Certificado"]
+  },
+];
+
+/* =========
+   Helpers
+   ========= */
+const el = sel => document.querySelector(sel);
+const els = sel => Array.from(document.querySelectorAll(sel));
+
+function makeCard({ title, subtitle, intro, emoji, image, dataset = {} }){
+  const div = document.createElement('article');
+  div.className = 'card';
+  div.tabIndex = 0;
+  div.setAttribute('role','button');
+  div.setAttribute('aria-label', `${title}. Abrir detalhes`);
+
+  for (const [k,v] of Object.entries(dataset)) div.dataset[k] = v;
+
+  div.innerHTML = `
+    <img class="thumb" src="${image}" alt="Miniatura de ${title}" loading="lazy" decoding="async">
+    <div class="top">
+      <span class="tag">${subtitle}</span>
+      <span class="price">${dataset.price || ""}</span>
+    </div>
+    <h3 class="title">${title}</h3>
+    <p class="desc">${intro}</p>
+    <div class="emoji" aria-hidden="true">${emoji}</div>
+  `;
+  div.addEventListener('keydown', (ev)=>{ if(ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); div.click(); } });
+  div.addEventListener('click', ()=> openModalFromDataset(div.dataset));
+  return div;
+}
+
+/* =========
+   Render
+   ========= */
+function renderRestaurants(list){
+  const wrap = el('#cards-restaurantes');
+  wrap.innerHTML = '';
+  list.forEach(r=>{
+    const subtitle = r.cuisine.map(c => c[0].toUpperCase()+c.slice(1)).join(' · ');
+    const card = makeCard({
+      title: r.name,
+      subtitle,
+      intro: r.intro,
+      emoji: r.emoji,
+      image: r.image,
+      dataset: {
+        type: 'rest',
+        price: r.price,
+        cuisine: r.cuisine.join(','),
+        title: r.name,
+        intro: r.intro,
+        address: r.address,
+        hours: r.hours,
+        contact: r.contact,
+        emoji: r.emoji,
+        image: r.image,
+        badges: r.badges.join('|'),
+        tags: subtitle
+      }
+    });
+    wrap.appendChild(card);
+  });
+  el('#count-rest').textContent = `${list.length} resultado(s)`;
+}
+
+function renderActivities(list){
+  const wrap = el('#cards-actividades');
+  wrap.innerHTML = '';
+  list.forEach(a=>{
+    const subtitle = a.tags.map(t=> t[0].toUpperCase()+t.slice(1)).join(' · ');
+    const card = makeCard({
+      title: a.name,
+      subtitle,
+      intro: a.intro,
+      emoji: a.emoji,
+      image: a.image,
+      dataset: {
+        type: 'act',
+        price: a.price,
+        tags: a.tags.join(','),
+        title: a.name,
+        intro: a.intro,
+        address: a.address,
+        hours: a.hours,
+        contact: a.contact,
+        emoji: a.emoji,
+        image: a.image,
+        badges: a.badges.join('|')
+      }
+    });
+    wrap.appendChild(card);
+  });
+  el('#count-act').textContent = `${list.length} resultado(s)`;
+}
+
+/* =========
+   Modal
+   ========= */
+const backdrop = el('#backdrop');
+const closeBtn = el('#modal-close');
+
+function openModalFromDataset(ds){
+  el('#modal-title').textContent = ds.title || 'Detalhes';
+  el('#modal-desc').textContent = ds.intro || '';
+  el('#modal-address').textContent = ds.address || '';
+  el('#modal-hours').textContent = ds.hours || '';
+  el('#modal-contact').textContent = ds.contact || '';
+  el('#modal-emoji').textContent = ds.emoji || '🍣';
+
+  const img = el('#modal-image');
+  img.src = ds.image || '';
+  img.alt = ds.title ? `Imagem de ${ds.title}` : '';
+
+  // Tags e badges
+  const tagsWrap = el('#modal-tags'); tagsWrap.innerHTML = '';
+  const tagLine = ds.tags ? ds.tags.split(/[|,]/).map(s=>s.trim()).filter(Boolean) : [];
+  const price = ds.price ? [ds.price] : [];
+  [...tagLine, ...price].forEach(t=>{
+    const span = document.createElement('span'); span.className='badge'; span.textContent = t; tagsWrap.appendChild(span);
+  });
+
+  const badgesWrap = el('#modal-badges'); badgesWrap.innerHTML = '';
+  const badges = ds.badges ? ds.badges.split('|').filter(Boolean) : [];
+  badges.forEach(b=>{
+    const span = document.createElement('span'); span.className='badge'; span.textContent = b; badgesWrap.appendChild(span);
+  });
+
+  backdrop.classList.add('show');
+  backdrop.setAttribute('aria-hidden','false');
+  closeBtn.focus();
+}
+function closeModal(){
+  backdrop.classList.remove('show');
+  backdrop.setAttribute('aria-hidden','true');
+}
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+closeBtn.addEventListener('click', closeModal);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+/* =========
+   Tabs / Filtros / Menu
+   ========= */
+function setActiveView(viewId){
+  els('.tab').forEach(x=> x.classList.toggle('active', x.dataset.view === viewId));
+  els('.view').forEach(v=> v.classList.toggle('active', v.id === viewId));
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+}
+els('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=> setActiveView(btn.dataset.view));
+});
+
+/* Filtros com correção do “Todos” */
+function setupFilters(){
+  els('#restaurantes .filter').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const f = btn.dataset.filter;
+      let list = RESTAURANTS.slice();
+      if (f && f !== 'all'){
+        if (['€','€€','€€€'].includes(f)) {
+          list = list.filter(r=> r.price===f);
+        } else {
+          const v = f.toLowerCase();
+          list = list.filter(r=> r.cuisine.some(c=> c.toLowerCase()===v) || (v==='bbq' && r.cuisine.includes('bbq')));
+        }
+      }
+      renderRestaurants(list);
+    });
+  });
+
+  els('#actividades .filter').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const f = btn.dataset.filter;
+      let list = ACTIVITIES.slice();
+      if (f && f !== 'all'){
+        const v = f.toLowerCase();
+        list = list.filter(a=> a.tags.some(t=> t.toLowerCase()===v));
+      }
+      renderActivities(list);
+    });
+  });
+}
+
+/* Menu hamburguer */
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', ()=>{
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+/* =========
+   Scroll: anima entrada das panels da Home
+   ========= */
+function setupHomeScroll(){
+  const targets = [el('#panel-dicas'), el('#panel-goodbad')].filter(Boolean);
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  },{ rootMargin:'-10% 0px -10% 0px', threshold: 0.1 });
+  targets.forEach(t=> io.observe(t));
+}
+
+/* =========
+   Boot
+   ========= */
+renderRestaurants(RESTAURANTS);
+renderActivities(ACTIVITIES);
+setupFilters();
+setupHomeScroll();
+</script>
+</body>
+</html>

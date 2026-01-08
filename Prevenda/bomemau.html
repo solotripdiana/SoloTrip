@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="pt">
+<head>
+	<title>Coreia do Sul e Japão</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	
+	<script src="analytics.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-B6HSM62Z1K"></script>
+</head>
+
+
+<style>
+/* Estilo para a lista bloqueada */
+.tips-list li:nth-child(n+4) {
+    filter: blur(5px);
+    pointer-events: none; /* Impede copiar o texto */
+    user-select: none;
+    opacity: 0.6;
+    position: relative;
+}
+
+/* Container da lista para permitir o posicionamento do selo */
+.tips-list {
+    position: relative;
+}
+
+/* Criar o overlay/selo para os itens bloqueados */
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card::after {
+    content: "Disponível no guia";
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #b3262a;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    border: 2px solid white;
+}
+
+/* Ajuste para o link do Gumroad envolver o card ou o selo */
+.card-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 11;
+    cursor: pointer;
+}
+</style>
+<body class="is-preload">
+
+<!-- HEADER -->
+	<header id="header" class="alt">
+		<h1></h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">Inicio</a></li>
+				<li><a href="restaurante.html">Restaurantes</a></li>
+				<li><a href="actividades.html">Actividades</a></li>
+			</ul>
+		</nav>
+		</nav>
+	</header>
+
+	<!-- Intro -->
+	<section id="intro" class="main style1 dark fullscreen">
+		<div class="content">
+			<header>
+				<h2>Bom e Mau</h2>
+				
+			</header>
+			<p>Toda a verdade</p>
+			
+			<footer>
+				<a href="#explorar" class="button style2 down"></a>
+			</footer>
+		</div>
+	</section>
+	
+
+	
+		<section id="one" class="main style2 dark">
+  <div class="content box style2 mobile-friendly">
+
+    <header class="section-header">
+      <h2>Bom & Mau</h2>
+      <p class="subtitle">A experiência sem filtros</p>
+    </header>
+
+    <div class="gallery">
+
+      <!-- BOM -->
+      <article class="card good">
+        <h3>O bom 🌱</h3>
+								<ul class="tips-list">
+									<li>
+										Segurança absurda. Caminhar sozinha à noite, deixar a mala na cadeira,
+										telemóvel na mesa — zero stress.
+									</li>
+									<li>
+										Transporte perfeito. Comboios ao segundo, estações claras.
+										Google Maps e Translator são essenciais.
+									</li>
+									<li>
+										Pessoas respeitadoras. Ninguém invade o teu espaço.
+									</li>
+									<li>
+										Apesar de não falarem inglês, são inacreditavelmente prestáveis e se for preciso pegam-te pela mao e levam-te ao destino final :)</li>
+								<li>
+
+								</ul>
+								 <a href="https://joaomendes85.gumroad.com/l/KoreaJapan" target="_blank" class="card-link-overlay" aria-label="Comprar Guia"></a>
+</article>
+								<article class="card bad">
+        <h3>O mau ⚠️</h3>
+
+								<ul class="tips-list">
+									<li>
+										Cultura de trabalho extrema (+60h/semana) e poucas férias.
+										Apenas ~2% dos japoneses têm passaporte.
+									</li>
+									<li>
+										Inglês limitado fora dos grandes centros.
+										Apps de tradução são essenciais.
+									</li>
+									<li>
+										Social skills diferentes: pouco contacto ocular,
+										pouco small talk, maior distância social.
+									</li>
+									<li>
+									Dificuldade em comunicar emoções. Pode parecer frieza — mas é cultura, não desinteresse.
+									</li>
+									<li>
+									Isolamento social real. Hikikomori, solidão e pressão social existem e nota-se. (ver este documentário)
+									</li>
+									
+								</ul>
+								 <a href="https://joaomendes85.gumroad.com/l/KoreaJapan" target="_blank" class="card-link-overlay" aria-label="Comprar Guia"></a>
+
+							
+    </div>
+  </div>
+</section>
+				</div>
+				<!--a href="#two" class="button style2 down anchored">Next</a-->
+			</section>
+
+		
+
+	<!-- Footer -->
+	<footer id="footer">
+		<ul class="menu">
+			<li>© <span id="footer-year"></span> Diana Nicolau ディアナ・ニコラウ</li>
+		</ul>
+	</footer>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.poptrox.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+	<script>
+		document.getElementById("footer-year").textContent = new Date().getFullYear();
+		/* =========
+   Fade do Intro ao scroll
+   ========= */
+const intro = document.getElementById('intro');
+
+window.addEventListener('scroll', () => {
+  const max = window.innerHeight * 0.35; // 35% do ecrã
+  const y = Math.min(window.scrollY, max);
+  const opacity = 1 - (y / max);
+
+  intro.style.opacity = Math.max(opacity, 0);
+});
+
+
+</body>
+</html>

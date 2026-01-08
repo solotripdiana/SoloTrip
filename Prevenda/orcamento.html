@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <title>Japan Trip – Despesas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- CSS BASE (o teu) -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body >
+
+<!-- HEADER -->
+<header id="header">
+  <h1><a href="#intro">Orçamento</a></h1>
+ 
+</header>
+
+<!-- INTRO (IMAGEM DE FUNDO VIA CSS) -->
+<section id="intro" class="main style1 fullscreen">
+  <div class="content">
+    <header>
+      <h2>Orçamento</h2>
+      <p>Como gasto as poupanças</p>
+    </header>
+    <footer>
+      <a href="#despesas" class="button style2 down anchored">Ver despesas</a>
+    </footer>
+  </div>
+</section>
+
+<!-- DESPESAS -->
+<section id="despesas" class="main style3">
+  <div class="content">
+
+    <div class="box">
+      <h2>Despesas da Viagem</h2>
+
+      <p><strong>Total geral:</strong> <span id="totalGeralTop">0</span></p>
+
+      <!-- DESKTOP -->
+      <table class="default" id="tableDesktop">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Local</th>
+            <th>Aloj.</th>
+            <th>Comida</th>
+            <th>Transp.</th>
+            <th>Extra</th>
+            <th>Total dia</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        <tfoot>
+          <tr>
+            <th colspan="6">TOTAL GERAL</th>
+            <th id="totalGeralBottom"></th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- MOBILE -->
+      <div class="cards" id="cards"></div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <ul class="menu">
+    <li>&copy; Japan Trip</li>
+    <li>Planeamento de viagem</li>
+  </ul>
+</footer>
+
+<!-- JS -->
+<script>
+const data = [
+  { date:"08/09", place:"Voo Lisboa", aloj:1, food:2, transport:3, extra:5 },
+  { date:"09/09", place:"Seul", aloj:312, food:30, transport:10, extra:77 },
+  { date:"10/09", place:"Seul", aloj:0, food:0, transport:0, extra:0 },
+  { date:"11/09", place:"Seul", aloj:0, food:0, transport:0, extra:0 },
+  { date:"12/09", place:"Seul", aloj:0, food:0, transport:0, extra:0 },
+  { date:"13/09", place:"Seul → Gyeongju", aloj:0, food:0, transport:0, extra:0 },
+  { date:"14/09", place:"Gyeongju", aloj:0, food:0, transport:0, extra:0 },
+  { date:"15/09", place:"Gyeongju → Busan", aloj:0, food:0, transport:0, extra:0 },
+  { date:"16/09", place:"Busan → Hiroshima", aloj:0, food:0, transport:0, extra:0 },
+  { date:"17/09", place:"Hiroshima", aloj:0, food:0, transport:0, extra:0 },
+  { date:"18/09", place:"Hiroshima → Naoshima", aloj:0, food:0, transport:0, extra:0 },
+  { date:"19/09", place:"Naoshima (Teshima)", aloj:0, food:0, transport:0, extra:0 },
+  { date:"20/09", place:"Naoshima → Osaka", aloj:0, food:0, transport:0, extra:0 },
+  { date:"21/09", place:"Osaka", aloj:0, food:0, transport:0, extra:0 },
+  { date:"22/09", place:"Osaka", aloj:0, food:0, transport:0, extra:0 },
+  { date:"23/09", place:"Osaka → Kyoto", aloj:0, food:0, transport:0, extra:0 },
+  { date:"24/09", place:"Kyoto", aloj:0, food:0, transport:0, extra:0 },
+  { date:"25/09", place:"Kyoto", aloj:0, food:0, transport:0, extra:0 },
+  { date:"26/09", place:"Kyoto → Hakone", aloj:0, food:0, transport:0, extra:0 },
+  { date:"27/09", place:"Hakone → Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"28/09", place:"Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"29/09", place:"Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"30/09", place:"Tóquio (day trip)", aloj:0, food:0, transport:0, extra:0 },
+  { date:"01/10", place:"Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"02/10", place:"Tóquio → Ishigaki", aloj:0, food:0, transport:0, extra:0 },
+  { date:"03/10", place:"Ishigaki", aloj:0, food:0, transport:0, extra:0 },
+  { date:"04/10", place:"Ishigaki", aloj:0, food:0, transport:0, extra:0 },
+  { date:"05/10", place:"Ishigaki", aloj:0, food:0, transport:0, extra:0 },
+  { date:"06/10", place:"Ishigaki → Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"07/10", place:"Tóquio", aloj:0, food:0, transport:0, extra:0 },
+  { date:"08/10", place:"Tóquio → Lisboa", aloj:0, food:0, transport:0, extra:0 }
+];
+
+const tableBody = document.getElementById("tableBody");
+const cards = document.getElementById("cards");
+let totalGeral = 0;
+
+data.forEach(d => {
+  const totalDia = d.aloj + d.food + d.transport + d.extra;
+  totalGeral += totalDia;
+
+  tableBody.innerHTML += `
+    <tr>
+      <td>${d.date}</td>
+      <td>${d.place}</td>
+      <td>${d.aloj}</td>
+      <td>${d.food}</td>
+      <td>${d.transport}</td>
+      <td>${d.extra}</td>
+      <td><strong>${totalDia}</strong></td>
+    </tr>
+  `;
+
+  cards.innerHTML += `
+    <div class="card">
+      <div class="card-header">${d.date} — ${d.place}</div>
+      <div class="row"><span class="label">Alojamento</span><span>${d.aloj}</span></div>
+      <div class="row"><span class="label">Comida</span><span>${d.food}</span></div>
+      <div class="row"><span class="label">Transporte</span><span>${d.transport}</span></div>
+      <div class="row"><span class="label">Extra</span><span>${d.extra}</span></div>
+      <div class="row total-card"><span>Total</span><span>${totalDia}</span></div>
+    </div>
+  `;
+});
+
+document.getElementById("totalGeralTop").textContent = totalGeral;
+document.getElementById("totalGeralBottom").textContent = totalGeral;
+</script>
+
+</body>
+</html>

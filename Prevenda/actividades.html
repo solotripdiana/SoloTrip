@@ -1,0 +1,934 @@
+
+<!DOCTYPE HTML>
+<html lang="pt">
+<head>
+	<title>Actividades</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link	rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"	referrerpolicy="no-referrer"/>
+
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	<script src="assets/js/main.js"></script>
+	<script src="assets/js/script.js"></script>
+	<script src="analytics.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-B6HSM62Z1K"></script>
+</head>
+<style>
+:root{
+  --bg:#fff7ea;
+  --card:#ffffff;
+  --line:#e7e1d7;
+  --text:#39454b;
+  --muted:#6c7a81;
+  --jp:#e60026;
+  --kr:#0f4c81;
+  --accent:#98c593;
+  --shadow:0 8px 26px rgba(0,0,0,.08);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+}
+
+main{
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 16px;
+}
+
+h1{margin-bottom:12px}
+
+.toolbar{
+  display:flex;
+  gap:1px;
+  flex-wrap:wrap;
+  margin-bottom:1px;
+}
+
+button.filter{
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  font-size: 10pt;
+  line-height: 1.2em;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+
+  color: #b3262a;
+  background: rgba(255,255,255,0.65);
+
+  border: 1px solid #b3262a;
+  border-radius: 999px;
+
+ min-width: 150px;
+
+  padding: .35em 0;      /* altura controlada */
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+
+button.filter:hover{
+  background: #b3262a;
+  color: #fff;
+}
+
+
+button.filter.active{
+  background: linear-gradient(135deg,#39454b,#5b6a72);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+
+button.filter:hover{background:#b3262a}
+
+.cards{
+  display:grid;
+  gap:14px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+  box-shadow:var(--shadow);
+  position:relative;
+  cursor:pointer;
+}
+.card:hover{transform:translateY(-2px)}
+
+.thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+  background:#eee;
+}
+
+.tag{
+  font-size:.9rem;
+  padding:.3em .6em;
+  border-radius:999px;
+  background:#f5f1ea;
+  border:1px solid #eadfcd;
+}
+
+.rating{
+  font-weight:700;
+  color:#0047A0;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+}
+
+.title{
+  font-weight:800;
+  margin:6px 0;
+}
+
+.desc{
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+.emoji{
+  position:absolute;
+  right:10px;
+  bottom:-8px;
+  font-size:56px;
+  opacity:.12;
+}
+
+/* Modal */
+.backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+.backdrop.show{display:flex}
+
+.modal{
+  background:#fff;
+  border-radius:18px;
+  max-width: 95%;
+  max-height: 95%;
+  
+  overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+  
+}
+
+.modal-header{
+  padding:12px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(90deg,rgba(230,0,38,.08),rgba(15,76,129,.08));
+}
+
+.modal-body{
+  padding:16px;
+  display:grid;
+  gap:10px;
+}
+
+.close{
+  border:0;
+  background:#eee;
+  border-radius:8px;
+  padding:.4em .6em;
+  cursor:pointer;
+}
+
+.badge{
+  font-size:.85rem;
+  padding:.35em .6em;
+  border-radius:10px;
+  background:#f1f5f9;
+  border:1px solid #e2e8f0;
+}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.hero{width:100%;border-radius:12px}
+
+.backdrop{
+  display:none;
+}
+.backdrop.show{display:flex}
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  z-index:1000;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  max-height: 80vh;
+}
+
+.modal-body{
+  overflow: hidden; /* garante que não aparece scroll */
+}
+
+.hero{
+  max-height: 30vh;     /* controla o tamanho da imagem */
+  object-fit: cover;
+}
+
+.count{
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 11.5pt;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+
+  color: #0047A0;               
+  opacity: 1;
+
+  margin-left: 12px;
+  align-self: center;
+}
+
+
+/* Ações do modal: mapa + instagram */
+.map-link-inline{
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #39454b;
+  background: transparent;
+  border: 1px solid #e2e2e2;
+
+  text-decoration: none;
+  transition: 
+    background .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+}
+
+/* Ícone */
+.map-link-inline i{
+  font-size: 18px;
+  color: #b3262a;
+}
+
+/* Hover subtil */
+.map-link-inline:hover{
+  background: #f5f5f5;
+  border-color: #b3262a;
+  color: #b3262a;
+}
+
+
+
+
+
+
+
+/* --- Melhorias no Modal --- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Backdrop um pouco mais escuro para foco */
+  backdrop-filter: blur(4px); /* Efeito de desfoque no fundo */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 24px; /* Cantos mais suaves */
+  width: 100%;
+  max-width: 600px; /* Largura máxima controlada para equilíbrio */
+  max-height: 90vh;
+  overflow-y: auto; /* Permite scroll se o conteúdo for longo */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  border: none;
+}
+
+.modal-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinha o fechar ao topo do título */
+  background: linear-gradient(135deg, rgba(230,0,38,0.05), rgba(15,76,129,0.05));
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hero {
+  width: 100%;
+  height: 250px; /* Altura fixa para manter proporção */
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* --- Detalhes Internos (Badges e Links) --- */
+
+.badge-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: var(--muted);
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dois botões lado a lado */
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.map-link-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--line);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.map-link-inline:hover {
+  border-color: var(--jp);
+  color: var(--jp);
+  background: rgba(230, 0, 38, 0.02);
+}
+
+/* --- Ajuste Geral nos Botões de Filtro --- */
+
+button.filter {
+  padding: 10px 24px;
+  font-weight: 600;
+  border-radius: 12px; /* Menos arredondado "pílula", mais moderno */
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--muted);
+  min-width: auto; /* Remove largura fixa para ser flexível */
+}
+
+button.filter.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: #e2e8f0;
+}
+#intro{
+  transition: opacity .1s linear;
+  will-change: opacity;
+}
+
+
+</style>
+<body >
+
+<!-- HEADER -->
+	<header id="header">
+		<h1></h1>
+		<nav>
+		<ul>
+				<li><a href="index.html">Início</a></li>
+				<li><a href="restaurante.html">Restaurante</a></li>
+				<li><a href="bomemau.html">Bom e Mau</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<!-- Intro -->
+	<section id="intro" class="main style1 dark fullscreen">
+		<div class="content">
+			<header>
+				<h2>Actividades</h2>
+			</header>
+			<p>Uma seleção pessoal do que fazer por lá.</p>
+			
+			<footer>
+				<a href="#explorar" class="button style2 down">Explorar</a>
+			</footer>
+		</div>
+	</section>
+
+<div id="card-popup" class="popup">
+	<span class="popup-bg"></span>
+	<div class="popup-card">
+		<button class="popup-close" aria-label="Fechar">✕</button>
+	</div>
+</div>
+
+<!-- LISTA -->
+<section id="explorar" class="main style3 sad">
+	<div class="content">
+		<header>
+	<h2 class="h2-center">
+  <span class="h2-text-underline">E porque ver não é so com os olhos...</span>
+  
+</h2>
+</header>
+
+
+
+  <!-- RESTAURANTES  Coreia-->
+  <section id="restaurantes" class="view" aria-labelledby="rest-title">
+    <h1 id="rest-title" style="margin:0 0 10px;"></h1>
+    <div class="toolbar" role="group" aria-label="Filtros de restaurantes">
+      <button class="filter" data-filter="all">Todos</button>
+      <button class="filter" data-filter="japão">Japão</button>
+      <button class="filter" data-filter="coreia">Coreia</button>
+      <button class="filter" data-filter="Histórico">Histórico</button>
+      <button class="filter" data-filter="Arte">Arte</button>
+	   </div>
+	   <div class="toolbar" role="group" aria-label="Filtros de restaurantes">
+	   
+      <button class="filter" data-filter="★★">★★</button>
+      <button class="filter" data-filter="★★★">★★★</button>
+      <button class="filter" data-filter="★★★★">★★★★</button>
+      <button class="filter" data-filter="★★★★★">★★★★★</button>
+	  <button id="clear-filters" class="filter">Limpar filtros</button>
+
+      <span id="count-rest" class="count" style="margin-left:8px"></span>
+    </div>
+    <div id="cards-restaurantes" class="cards" aria-live="polite"></div>
+  </section>
+
+
+
+
+
+<!-- MODAL -->
+<div id="backdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h3 id="modal-title"></h3>
+      <button id="modal-close" aria-label="Fechar">✖</button>
+    </div>
+    <div class="modal-body">
+      <img id="modal-image" class="hero" alt="">
+      <div class="row" id="modal-tags"></div>
+      <p id="modal-desc" class="desc"></p>
+      <div class="field">
+        <a id="modal-map" target="_blank" class="map-link-inline">
+          <i class="fa fa-map-marker"></i>
+        </a>
+        <a id="modal-insta" class="map-link-inline" target="_blank" rel="noopener" aria-label="Instagram" style="display:none">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+      <div class="row" id="modal-badges"></div>
+    </div>
+  </div>
+</div>
+<template id="restaurant-card-template">
+  <article class="card" role="button" tabindex="0">
+    <div class="thumb-wrap">
+      <img class="thumb" loading="lazy" decoding="async">
+      <a class="map-link" target="_blank" aria-label="Abrir no mapa">📍</a>
+    </div>
+
+    <div class="top">
+      <span class="tag"></span>
+      <span class="rating"></span>
+    </div>
+
+    <h3 class="title"></h3>
+    <p class="desc"></p>
+    <div class="emoji" aria-hidden="true"></div>
+  </article>
+</template>
+
+<!-- FOOTER -->
+<footer id="footer">
+	<ul class="menu">
+		<li>© <span id="footer-year"></span> Diana Nicolau ディアナ・ニコラウ</li>
+	</ul>
+</footer>
+
+
+
+<script>
+	document.getElementById("footer-year").textContent = new Date().getFullYear();
+/* =========
+   Dados (agora com imagens/thumbnails)
+   ========= */
+   
+   
+const RESTAURANTS = [
+  {
+    "name": "TeamLab Borderless",
+    "emoji": "🎨",
+    "image": "images/actividades/Japao/TeamLabBorderless.jpg",
+    "cuisine": ["Arte", "Tóquio", "Japão"],
+    "rating": "★★★",
+    "intro": "Um mundo sem fronteiras composto por obras de arte digitais que interagem com os visitantes. Uma experiência imersiva e visualmente deslumbrante.",
+    "address": "https://maps.app.goo.gl/A6yVpX6vL2mY4x7A9",
+    "instagram": "https://www.instagram.com/teamlab/",
+    "badges": ["Imersivo", "Moderno"]
+  },
+  {
+    "name": "Fushimi Inari-taisha",
+    "emoji": "⛩️",
+    "image": "images/actividades/Japao/FushimiInari-taisha.jpg",
+    "cuisine": ["Histórico", "Quioto"],
+    "rating": "★★★",
+    "intro": "Famoso pelos seus milhares de portões torii vermelhos que serpenteiam a montanha. É um dos santuários mais icónicos e fotografados do Japão.",
+    "address": "https://maps.app.goo.gl/N3YJd2M5L1A2",
+    "instagram": "https://www.instagram.com/explore/tags/fushimiinari/",
+    "badges": ["Espiritual", "Outdoor"]
+  },
+  {
+    "name": "Museu Ghibli",
+    "emoji": "🌿",
+    "image": "images/actividades/Japao/GhibliMuseum.jpg",
+    "cuisine": ["Cultura Pop", "Mitaka"],
+    "rating": "★★★",
+    "intro": "Dedicado ao trabalho do Studio Ghibli. Um museu mágico que parece saído de um filme de Hayao Miyazaki, obrigatório para fãs de animação.",
+    "address": "https://maps.app.goo.gl/m7R7X6VjX9zB",
+    "instagram": "https://www.instagram.com/ghibli_museum/",
+    "badges": ["Exclusivo", "Família"]
+  },
+  {
+    "name": "Templo Senso-ji",
+    "emoji": "🏮",
+    "image": "images/actividades/Japao/Sensoji.jpg",
+    "cuisine": ["Religioso", "Asakusa"],
+    "rating": "★★",
+    "intro": "O templo mais antigo de Tóquio. A entrada pela porta Kaminarimon e a rua comercial Nakamise oferecem um mergulho na tradição japonesa.",
+    "address": "https://maps.app.goo.gl/wK6W6Y8k9z2",
+    "instagram": "https://www.instagram.com/explore/locations/213031070/senso-ji/",
+    "badges": ["Tradição", "Grátis"]
+  },
+  {
+    "name": "Castelo de Himeji",
+    "emoji": "🏰",
+    "image": "images/actividades/Japao/HimejiCastle.jpg",
+    "cuisine": ["Monumental", "Hyogo"],
+    "rating": "★★★",
+    "intro": "Conhecido como a 'Garça Branca' devido à sua cor e elegância. É o castelo mais bem preservado do Japão e Património Mundial da UNESCO.",
+    "address": "https://maps.app.goo.gl/Z2eX8u2R6m9",
+    "instagram": "https://www.instagram.com/himeji_castle/",
+    "badges": ["História", "Arquitetura"]
+  },{
+    "name": "Palácio Gyeongbokgung",
+    "emoji": "🎎",
+    "image": "images/actividades/Coreia/Gyeongbokgung.jpg",
+    "cuisine": ["Histórico", "Coreia"],
+    "rating": "★★★",
+    "intro": "O principal e mais imponente palácio da dinastia Joseon. A troca da guarda real e os seus vastos jardins transportam qualquer visitante para o passado coreano.",
+    "address": "http://googleusercontent.com/maps.google.com/3",
+    "instagram": "https://www.instagram.com/gyeongbokgung_palace_official/",
+    "badges": ["Tradição", "Fotogénico"]
+  },
+  {
+    "name": "Vila Bukchon Hanok",
+    "emoji": "🏘️",
+    "image": "images/actividades/Coreia/Bukchon.jpg",
+    "cuisine": ["Arquitetura", "Coreia"],
+    "rating": "★★",
+    "intro": "Um bairro histórico preservado com centenas de casas tradicionais (hanoks). Perfeito para um passeio calmo e para experienciar a cultura coreana urbana clássica.",
+    "address": "http://googleusercontent.com/maps.google.com/4",
+    "instagram": "https://www.instagram.com/explore/tags/bukchonhanokvillage/",
+    "badges": ["Cultura", "Grátis", "Seul"]
+  },
+  {
+    "name": "Ilha de Jeju (Seongsan Ilchulbong)",
+    "emoji": "🌋",
+    "image": "images/actividades/Coreia/Jeju.jpg",
+    "cuisine": ["Natureza", "Jeju"],
+    "rating": "★★★★★",
+    "intro": "O 'Pico do Nascer do Sol' é uma cratera vulcânica que emerge do mar. Património da UNESCO, oferece uma das vistas naturais mais deslumbrantes da Coreia.",
+    "address": "http://googleusercontent.com/maps.google.com/5",
+    "instagram": "https://www.instagram.com/visitjeju.en/",
+    "badges": ["Aventura", "Paisagem"]
+  }
+];
+
+/* =========
+   Helpers
+   ========= */
+const el = sel => document.querySelector(sel);
+const els = sel => Array.from(document.querySelectorAll(sel));
+
+function makeCard({ title, subtitle, intro, emoji, image, dataset = {} }){
+  const tpl = document.getElementById('restaurant-card-template');
+  const node = tpl.content.cloneNode(true);
+  const card = node.querySelector('.card');
+
+  card.setAttribute('aria-label', `${title}. Abrir detalhes`);
+
+  Object.entries(dataset).forEach(([k,v]) => card.dataset[k] = v);
+
+  node.querySelector('.thumb').src = image;
+  node.querySelector('.thumb').alt = `Miniatura de ${title}`;
+
+  node.querySelector('.tag').textContent = subtitle;
+  node.querySelector('.rating').textContent = dataset.rating || '';
+  node.querySelector('.title').textContent = title;
+  node.querySelector('.desc').textContent = intro;
+  node.querySelector('.emoji').textContent = emoji || '';
+
+  const mapLink = node.querySelector('.map-link');
+  if (dataset.mapUrl){
+    mapLink.href = dataset.mapUrl;
+  } else {
+    mapLink.remove();
+  }
+
+  card.addEventListener('click', ()=> openModalFromDataset(card.dataset));
+  card.addEventListener('keydown', e=>{
+    if(e.key === 'Enter' || e.key === ' ') card.click();
+  });
+
+  return node;
+}
+
+/* =========
+   Render
+   ========= */
+function renderRestaurants(list){
+  const wrap = el('#cards-restaurantes');
+  wrap.innerHTML = '';
+  list.forEach(r=>{
+    const subtitle = r.cuisine.map(c => c[0].toUpperCase()+c.slice(1)).join(' · ');
+    const card = makeCard({
+      title: r.name,
+      subtitle,
+      intro: r.intro,
+      emoji: r.emoji,
+      image: r.image,
+      dataset: {
+        type: 'rest',
+        rating: r.rating,
+        cuisine: r.cuisine.join(','),
+        title: r.name,
+        intro: r.intro,
+        address: r.address,
+        instagram: r.instagram,
+        emoji: r.emoji,
+        image: r.image,
+        badges: r.badges.join('|'),
+        tags: subtitle
+      }
+    });
+    wrap.appendChild(card);
+  });
+  el('#count-rest').textContent = `${list.length} resultado(s)`;
+  el('#clear-filters')
+  .addEventListener('click', clearRestaurantFilters);
+
+}
+
+/* =========
+   Modal
+   ========= */
+const backdrop = el('#backdrop');
+const closeBtn = el('#modal-close');
+
+function openModalFromDataset(ds){
+  el('#modal-title').textContent = ds.title || '';
+  el('#modal-desc').textContent = ds.intro || '';
+
+  const img = el('#modal-image');
+  img.src = ds.image || '';
+  img.alt = ds.title ? `Imagem de ${ds.title}` : '';
+
+  // 📍 Mapa
+  const mapLink = el('#modal-map');
+  if (ds.address){
+    mapLink.href = ds.address;
+    mapLink.style.display = 'inline-flex';
+  } else {
+    mapLink.style.display = 'none';
+  }
+
+  // 📸 Instagram
+  const instaLink = el('#modal-insta');
+  if (ds.instagram){
+    instaLink.href = ds.instagram;
+    instaLink.style.display = 'inline-flex';
+  } else {
+    instaLink.style.display = 'none';
+  }
+
+  // Tags
+  const tags = el('#modal-tags');
+  tags.innerHTML = '';
+  (ds.tags || '').split(',').forEach(t=>{
+    if(t){
+      const span = document.createElement('span');
+      span.className = 'badge';
+      span.textContent = t;
+      tags.appendChild(span);
+    }
+  });
+
+  // Badges
+  const badges = el('#modal-badges');
+  badges.innerHTML = '';
+  (ds.badges || '').split('|').forEach(b=>{
+    if(b){
+      const span = document.createElement('span');
+      span.className = 'badge';
+      span.textContent = b;
+      badges.appendChild(span);
+    }
+  });
+
+  backdrop.classList.add('show');
+  backdrop.setAttribute('aria-hidden','false');
+}
+
+
+function closeModal(){
+  backdrop.classList.remove('show');
+  backdrop.setAttribute('aria-hidden','true');
+}
+backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+closeBtn.addEventListener('click', closeModal);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeModal(); });
+
+/* =========
+   Tabs / Filtros / Menu
+   ========= */
+function setActiveView(viewId){
+  els('.tab').forEach(x=> x.classList.toggle('active', x.dataset.view === viewId));
+  els('.view').forEach(v=> v.classList.toggle('active', v.id === viewId));
+  menu.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+}
+els('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=> setActiveView(btn.dataset.view));
+});
+
+/* Filtros com correção do “Todos” */
+function setupFilters() {
+  els('#restaurantes .filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+
+      // remover active do grupo
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.filter')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // estrelas
+      if (['★','★★','★★★','★★★★','★★★★★'].includes(f)) {
+        activeRating = f;
+      }
+      // cozinha
+      else {
+		activeCuisine = f?.toLowerCase() === 'all' ? 'all' : (f?.toLowerCase() || 'all');      }
+
+      applyRestaurantFilters();
+    });
+  });
+}
+
+
+
+function applyRestaurantFilters() {
+  let list = RESTAURANTS.slice();
+
+  if (activeCuisine !== 'all') {
+    list = list.filter(r =>
+      r.cuisine.some(c => c.toLowerCase() === activeCuisine)
+    );
+  }
+
+  if (activeRating !== 'all') {
+    list = list.filter(r => r.rating === activeRating);
+  }
+
+  renderRestaurants(list);
+}
+
+/* Menu hamburguer */
+/*const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', ()=>{
+  const open = menu.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+});*/
+
+/* =========
+   Scroll: anima entrada das panels da Home
+   ========= */
+function setupHomeScroll(){
+  const targets = [el('#panel-dicas'), el('#panel-goodbad')].filter(Boolean);
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  },{ rootMargin:'-10% 0px -10% 0px', threshold: 0.1 });
+  targets.forEach(t=> io.observe(t));
+}
+
+function clearRestaurantFilters() {
+  activeCuisine = 'all';
+  activeRating = 'all';
+
+  // remover estados ativos
+  els('#restaurantes .filter')
+    .forEach(b => b.classList.remove('active'));
+
+  // reativar "Todos" e "Todas"
+  el('#restaurantes .filter[data-filter="all"]')?.classList.add('active');
+  el('#restaurantes .filter[data-filter="all-stars"]')?.classList.add('active');
+
+  renderRestaurants(RESTAURANTS);
+}
+
+
+/* =========   Boot   ========= */
+   
+clearRestaurantFilters();
+renderRestaurants(RESTAURANTS);
+setupFilters();
+setupHomeScroll();
+
+/* =========   Fade do Intro ao scroll   ========= */
+const intro = document.getElementById('intro');
+
+window.addEventListener('scroll', () => {
+  const max = 350;
+  const y = Math.min(window.scrollY, max);
+  const opacity = 1 - (y / max);
+
+  intro.style.opacity = opacity;
+});
+
+</script>
+
+</body>
+</html>
