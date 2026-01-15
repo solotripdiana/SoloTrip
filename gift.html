@@ -254,7 +254,16 @@
 }
 .spacer{ height: 900px; } 
 
-
+.yt-audio{
+  position: fixed;
+  width: 240px;
+  height: 135px;
+  right: 10px;
+  bottom: 10px;
+  opacity: 0.01;
+  pointer-events: none;
+  z-index: 0;
+}
 
   </style>
 </head>
@@ -298,7 +307,7 @@
 </div>
 
 <!-- Player YouTube escondido -->
-<div id="player" style="position:absolute; width:1px; height:1px; left:-9999px; top:-9999px;"></div>
+<div id="player" class="yt-audio"></div>
 
 	  <div class="fadeTop"></div>
       <div class="fadeBottom"></div>
@@ -406,24 +415,33 @@
 
   // ATENÇÃO: esta função tem de ficar global para o YouTube chamar
   window.onYouTubeIframeAPIReady = function () {
-    player = new YT.Player("player", {
-      videoId: "i3zq6pDXsgk", // <-- TROCA pelo teu vídeo
-      playerVars: {
-        autoplay: 0,
-        controls: 0,
-        rel: 0,
-        modestbranding: 1
-      },
-      events: {
-        onReady: () => {
-          ytReady = true;
-          if (pendingPlay) {
-            pendingPlay = false;
-            safePlay();
-          }
-        }
+player = new YT.Player("player", {
+  videoId: "RktO0eY376A",
+  playerVars: {
+    autoplay: 0,
+    controls: 0,
+    rel: 0,
+    modestbranding: 1,
+    playsinline: 1,
+
+    // LOOP (no YouTube só funciona bem com playlist=videoId)
+    loop: 1,
+    playlist: "RktO0eY376A"
+  },
+  events: {
+    onReady: () => {
+      ytReady = true;
+      if (pendingPlay) { pendingPlay = false; safePlay(); }
+    },
+    onStateChange: (e) => {
+      if (e.data === YT.PlayerState.ENDED) {
+        player.seekTo(0, true);
+        player.playVideo();
       }
-    });
+    }
+  }
+});
+
   };
 
   function safePlay(){
