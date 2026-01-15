@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Parabéns ✨</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#1b1f3a;
+      --stroke: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --accent: rgba(255, 210, 120, .95);
+    }
+
+    *{ box-sizing:border-box }
+    html, body{ height:100% }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+
+      /* FOTO DE FUNDO */
+      background: url("images/lake.jpg") center / cover no-repeat fixed;
+
+      overflow:hidden;
+      position: relative;
+    }
+
+    /* overlay para dar contraste ao texto */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px 600px at 20% 20%, rgba(43,47,102,.45) 0%, transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(90,47,93,.35) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(11,16,32,.65), rgba(27,31,58,.55));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* garante que o conteúdo fica por cima do overlay */
+    .screen, header, .teleprompter{
+      position: relative;
+      z-index: 1;
+    }
+
+    /* estrelas suaves */
+    .stars{
+      position:fixed; inset:0;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.35) 40%, transparent 42%),
+        radial-gradient(1.5px 1.5px at 140px 90px, rgba(255,255,255,.25) 40%, transparent 42%),
+        radial-gradient(1.8px 1.8px at 320px 150px, rgba(255,255,255,.2) 40%, transparent 42%),
+        radial-gradient(1.2px 1.2px at 520px 60px, rgba(255,255,255,.18) 40%, transparent 42%),
+        radial-gradient(1.6px 1.6px at 760px 180px, rgba(255,255,255,.22) 40%, transparent 42%),
+        radial-gradient(1.2px 1.2px at 940px 110px, rgba(255,255,255,.18) 40%, transparent 42%);
+      background-size: 1000px 220px;
+      opacity:.55;
+      animation: drift 16s linear infinite;
+      pointer-events:none;
+      filter: blur(.15px);
+    }
+    @keyframes drift { from {transform:translateY(0)} to {transform:translateY(220px)} }
+
+    /* layout total */
+    .screen{
+      height: 100dvh;
+      padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom) 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    header{
+      flex: 0 0 auto;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    h1{
+      margin:0;
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing:.2px;
+    }
+
+    .sub{
+      margin-top:6px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill{
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      user-select:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 14px;
+      min-height:44px;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    .range{
+      flex:1;
+      min-width: 220px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      border-radius:14px;
+      font-size:13px;
+      color:var(--muted);
+      min-height:44px;
+    }
+    input[type="range"]{
+      width:100%;
+      accent-color: rgba(255,255,255,.85);
+    }
+
+    /* teleponto */
+    .teleprompter{
+      position:relative;
+      flex: 1 1 auto;
+      min-height:0;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:22px;
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.04) inset;
+      touch-action: manipulation;
+    }
+
+    .viewport{
+      position:absolute; inset:0;
+      overflow:hidden;
+      padding: 22px 18px;
+    }
+
+    .fadeTop, .fadeBottom{
+      position:absolute; left:0; right:0; height:56px;
+      pointer-events:none;
+      z-index:2;
+    }
+    .fadeTop{
+      top:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.70), rgba(0,0,0,0));
+    }
+    .fadeBottom{
+      bottom:0;
+      background: linear-gradient(0deg, rgba(0,0,0,.70), rgba(0,0,0,0));
+    }
+
+    .scrollArea{
+      position:absolute;
+      left:0;
+      right:0;
+      top:100%;
+      padding: 0 18px 120px;
+      transform: translateY(0);
+      will-change: transform;
+    }
+
+    .message{
+      font-size: clamp(18px, 5.5vw, 30px);
+      line-height: 1.35;
+      letter-spacing: .2px;
+      text-shadow: 0 2px 18px rgba(0,0,0,.45);
+    }
+    .message .who{ color: var(--accent); font-weight: 800; }
+    .message p{ margin: 0 0 14px; }
+    .message .small{
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* desktop */
+    @media (min-width: 900px){
+      .screen{ padding: 24px; gap:16px; }
+      header{ flex-direction:row; align-items:center; justify-content:space-between; }
+      h1{ font-size: 24px; }
+      .controls{ justify-content:flex-end; }
+    }
+	.startOverlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+}
+
+.startCard{
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.28);
+  padding:16px 18px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.startTitle{
+  font-size:18px;
+  font-weight:800;
+  color: rgba(255,255,255,.95);
+}
+
+.startSub{
+  margin-top:6px;
+  font-size:13px;
+  color: rgba(255,255,255,.75);
+}
+
+
+  </style>
+</head>
+
+<body>
+  <div class="stars"></div>
+
+  <div class="screen">
+    <header>
+      <div>
+        <h1>Parabéns, <span style="color:var(--accent);font-weight:800;">Diana</span>! ✨</h1>
+        <div class="sub">
+          <!-- se quiseres mostrar, remove o display:none -->
+          <span class="pill" id="status" style="display:none">⏸️</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="toggleBtn">
+          <span id="toggleIcon">⏸️</span>
+          <span id="toggleText">Pausa</span>
+        </button>
+
+        <button class="btn" id="restartBtn">🔁 Ler de novo</button>
+
+        <div class="range" title="Velocidade">
+          Velocidade
+          <input id="speed" type="range" min="10" max="140" value="25" />
+          <span id="speedVal">25</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="teleprompter" id="teleprompter" aria-label="Teleponto">
+      <div class="startOverlay" id="startOverlay">
+  <div class="startCard">
+    <div class="startTitle">Clica para começar ✨</div>
+    <div class="startSub">Mensagem + música</div>
+  </div>
+</div>
+
+<!-- Player YouTube escondido -->
+<div id="player" style="position:absolute; width:1px; height:1px; left:-9999px; top:-9999px;"></div>
+
+	  <div class="fadeTop"></div>
+      <div class="fadeBottom"></div>
+
+      <div class="viewport">
+        <div class="scrollArea" id="scrollArea">
+          <div class="message" id="message">
+		  <p>
+    Podia escrever só uma mensagem normal… podia. Mas não era a mesma coisa.
+    Quando se trata de ti, para ti, as coisas ganham-me outra importância. 😉
+  </p>
+
+  <p>Hoje é um daqueles dias que me lembram o quanto és especial. ✨</p>
+
+  <p>
+    O tempo passa… e a verdade é que, a cada dia que passa, tu estás <span class="who">ainda mais bonita</span>.
+    Bonita por fora, sim — mas principalmente por dentro: pela tua forma de ser, pela tua luz e pelo teu coração.
+  </p>
+
+  <p>
+    Que este ano te traga paz, saúde e motivos simples para sorrir.
+    Que nunca te falte amor, coragem e aquela calma boa de saber que estás no caminho certo.
+  </p>
+
+  <p>
+  Para mim tornas tudo mais bonito só por estares perto.
+</p>
+		
+            <!--p>
+              Podia escrever-te uma mensagem normal? Claro que podia.
+              Mas vou fingir que sei dizer coisas bonitas
+            </p>
+
+            <p>
+              Hoje o dia traz o teu nome escrito devagar,
+              como se precisasse de parar para te perceber.
+            </p>
+
+            <p>
+              Os dias passam, uns por cima dos outros…
+              e há qualquer coisa em ti que melhora com o tempo,
+              como a luz quando encontra a janela certa.
+              E com essa luz ficas <span class="who">ainda mais bonita</span> —
+              como certas coisas ficam:
+              sem anunciar,
+              sem fazer barulho,
+              só ficando.
+              E por fora vê-se
+              o que começa lá dentro.
+            </p>
+
+            <p>
+              Que este ano te traga paz — daquelas que não fazem barulho.
+              Saúde — daquelas que deixam o corpo bem leve.
+              E motivos simples para sorrir,
+              como quem encontra um lugar seguro dentro do dia.
+              Que nunca te falte amor, nem coragem
+              e essa calma boa de saber que estás no caminho certo.
+            </p>
+
+            <p>
+              Para mim, tornas tudo mais bonito só por estares perto.
+            </p>
+
+            <p class="small">Parabéns ❤️ — assinado: quem te guarda num lugar bonito.</p-->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const teleprompter = document.getElementById("teleprompter");
+  const scrollArea = document.getElementById("scrollArea");
+  const messageEl = document.getElementById("message");
+
+  const toggleBtn = document.getElementById("toggleBtn");
+  const toggleIcon = document.getElementById("toggleIcon");
+  const toggleText = document.getElementById("toggleText");
+  const restartBtn = document.getElementById("restartBtn");
+  const speed = document.getElementById("speed");
+  const speedVal = document.getElementById("speedVal");
+  const statusPill = document.getElementById("status");
+
+  const startOverlay = document.getElementById("startOverlay");
+
+  let running = false;           // começa parado
+  let startedOnce = false;       // já iniciou alguma vez?
+  let lastTs = null;
+  let velocity = Number(speed.value);
+
+  // YouTube
+  let player;
+  let ytReady = false;
+  let pendingPlay = false;
+
+  // carregar API YouTube
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+
+  // ATENÇÃO: esta função tem de ficar global para o YouTube chamar
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player("player", {
+      videoId: "i3zq6pDXsgk", // <-- TROCA pelo teu vídeo
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        rel: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: () => {
+          ytReady = true;
+          if (pendingPlay) {
+            pendingPlay = false;
+            safePlay();
+          }
+        }
+      }
+    });
+  };
+
+  function safePlay(){
+    // play tem de ser chamado dentro de um gesto do utilizador (clique/toque)
+    if (!ytReady) { pendingPlay = true; return; }
+    try { player.playVideo(); } catch(e) {}
+  }
+
+  function safePause(){
+    if (!ytReady) return;
+    try { player.pauseVideo(); } catch(e) {}
+  }
+
+  function setStatus() {
+    const icon = running ? "⏸️" : "▶";
+    statusPill.textContent = icon;
+    toggleIcon.textContent = icon;
+    toggleText.textContent = running ? "Pausa" : "Play";
+  }
+
+  function resetPosition() {
+    scrollArea.style.transform = "translateY(0px)";
+    scrollArea._y = 0;
+    lastTs = null;
+    measure();
+  }
+
+  function measure() {
+    const teleH = teleprompter.getBoundingClientRect().height;
+    const msgH = messageEl.offsetHeight;
+    scrollArea._totalTravel = teleH + msgH + 120;
+  }
+
+  function startExperience(){
+    if (!startedOnce) {
+      startedOnce = true;
+      startOverlay.style.display = "none";
+      running = true;
+      setStatus();
+      safePlay();
+      return;
+    }
+
+    // se já começou antes, este "start" funciona como toggle play/pause
+    running = !running;
+    setStatus();
+    if (running) safePlay();
+    else safePause();
+  }
+
+  function tick(ts) {
+    if (!lastTs) lastTs = ts;
+    const dt = (ts - lastTs) / 1000;
+    lastTs = ts;
+
+    if (running) {
+      scrollArea._y = (scrollArea._y ?? 0) - (velocity * dt);
+      scrollArea.style.transform = `translateY(${scrollArea._y}px)`;
+
+      if (Math.abs(scrollArea._y) > (scrollArea._totalTravel ?? 2000)) {
+        scrollArea._y = 0;
+        lastTs = null;
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // controles
+  speed.addEventListener("input", () => {
+    velocity = Number(speed.value);
+    speedVal.textContent = velocity;
+  });
+
+  toggleBtn.addEventListener("click", () => {
+    // se ainda não começou, o botão também inicia
+    if (!startedOnce) return startExperience();
+
+    running = !running;
+    setStatus();
+    if (running) safePlay();
+    else safePause();
+  });
+
+  restartBtn.addEventListener("click", () => {
+    resetPosition();
+    // se ainda não começou, mantém parado
+    if (!startedOnce) return;
+    // se já começou e está a correr, garante música a tocar
+    if (running) safePlay();
+  });
+
+  // clique no teleponto inicia (primeira vez) ou faz toggle (depois)
+  teleprompter.addEventListener("click", () => {
+    startExperience();
+  });
+
+  // clique no overlay inicia
+  startOverlay.addEventListener("click", (e) => {
+    e.stopPropagation();
+    startExperience();
+  });
+
+  // recalcular em resize/orientação
+  window.addEventListener("resize", () => {
+    measure();
+  });
+
+  // init
+  speedVal.textContent = speed.value;
+  setStatus();
+  measure();
+  requestAnimationFrame(tick);
+
+  </script>
+</body>
+</html>
